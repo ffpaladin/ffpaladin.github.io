@@ -1,0 +1,344 @@
+
+<style id="style1" type="text/css">  
+#content
+{
+	position: relative;
+}
+.frame
+{
+	width:100%;
+	overflow:hidden;
+	position:relative;
+}
+body, html
+{
+	padding:0px;
+	margin:0px;
+	overflow: hidden;
+	overflow-y:hidden;
+}
+ul
+{
+list-style-type: none;
+padding: 0px;
+margin: 0px;
+}
+.head1{
+	font-family: Serifadow; 
+	font-size:80px; 
+	color:white;
+}
+.text{
+	font-family: 'KG Seven Sixteen';
+	font-size:40px; 
+	color:white;
+}
+.img_square
+{
+	width:200px;
+	height:200px;
+	overflow: hidden;
+	float: left;
+	z-index:-100;
+}
+.img_square img{
+	width:  300px;
+	height: auto;
+}
+.subframe
+{
+	float:left;
+	overflow:hidden;
+}
+.bigImageContainer
+{
+	position:inherit;
+	bottom:0px;
+	margin:auto;
+	width:80%;
+	height:70%;
+	overflow:hidden;
+}
+.imgHeight
+{
+	height:100%; display:block; margin:auto;
+}
+.imgWidth
+{
+}
+</style>
+<html>
+<head>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+<script src="fonts/typeface-0.15.js"></script>
+<script src="fonts/serifadow_medium.typeface.js"></script>
+<script src="fonts/kg_seven_sixteen_regular.typeface.js"></script>
+<script>
+	var MOVE_DURATION = 300;
+	var selectColor = "#999999";
+	function slideItVertical(targetId, up) {
+		this.currentPos;
+		if(this.currentPos==undefined)
+			this.currentPos = new Array();
+		if(this.currentPos[targetId]==undefined)
+			this.currentPos[targetId] = 0;
+		if(up)
+		{
+			this.currentPos[targetId]+=100;
+		}
+		else
+			this.currentPos[targetId]-=100;
+		$("#"+targetId).animate({
+			top: this.currentPos[targetId]+'%'
+		}, MOVE_DURATION);
+	}
+	function slideItHorizontal(targetId, left) {
+		//alert(targetId);
+		this.currentPos;
+		if(this.currentPos==undefined)
+			this.currentPos = new Array();
+		if(this.currentPos[targetId]==undefined)
+			this.currentPos[targetId] = 0;
+		if(left)
+		{
+			this.currentPos[targetId]+=100;
+		}
+		else
+			this.currentPos[targetId]-=100;
+		$("#"+targetId).animate({
+			left: this.currentPos[targetId]+'%'
+		}, MOVE_DURATION);
+	}
+	var keys = {
+        z : 90,
+        left : 37,
+		up : 38,
+		right : 39,
+		down : 40
+    }
+	var myColumn;
+	$(document).ready(function() {
+		myColumn = new MenuColumn("blue", "content", "#333");
+	});
+	
+	
+	$(document).keydown(function(e){
+		if (e.keyCode==keys.up)
+		{
+			myColumn.moveSelectionUp();
+		}
+		if (e.keyCode==keys.down)
+		{
+			myColumn.moveSelectionDown();
+		}
+		if (e.keyCode==keys.left)
+			myColumn.moveSelectionLeft();
+		if (e.keyCode==keys.right)
+		{
+			myColumn.moveSelectionRight();
+		}
+		
+		//prevent scrolling
+		var ar=new Array(32,33,34,35,36,37,38,39,40);
+		var key = e.which;
+		if($.inArray(key,ar) > -1) 
+			e.preventDefault();
+	});
+
+function Menu()
+{
+	
+}
+function MenuColumn(menuId, contentId, bgColor)
+{
+	var tempList = document.createElement("ul");
+	var contentSize = $("#"+contentId).children().size();
+	var titleNames = new Array("Title", "Cyclist", "Programmer", "Gamer", "Christian");
+	$('.frame').css('height', 100/contentSize+'%');
+	$('#'+contentId).height(100*contentSize+'%');
+	this.selected=0;
+	this.subSelected = new Array();
+	this.elementList;
+	this.backgroundColor = bgColor;
+	this.childDivs = $("#"+contentId).children();
+	
+	for(var x=0; x<contentSize; x++)
+	{
+		//creating column list
+		var tempDiv = document.createElement("li");
+		tempDiv.innerHTML = '<div class="typeface-js text">'+titleNames[x]+'</div>';
+		tempList.appendChild(tempDiv);
+		this.subSelected[x] = 0;
+		var size = $("#frame" + x).children().size();
+		$("#frame" + x).width(size+"00%");
+		for(var y=0; y<size; y++)
+			$("#frame"+x).children()[y].style.width = (100/size)+"%";
+	}
+	
+	$("#" + menuId).append(tempList);
+	this.elementList = tempList.childNodes;
+	this.updateSelected();
+	
+}
+MenuColumn.prototype.moveSelectionUp = function()
+{
+	if(this.selected > 0)
+	{
+		this.revertOldSelected();
+		this.selected--;
+		this.updateSelected();
+		slideItVertical("content", true);
+	}
+}
+MenuColumn.prototype.moveSelectionDown = function()
+{
+	if(this.selected < this.elementList.length-1)
+	{
+		this.revertOldSelected();
+		this.selected++;
+		this.updateSelected();
+		slideItVertical("content", false);
+	}
+}
+MenuColumn.prototype.moveSelectionLeft = function()
+{
+	var tempId = 'frame'+this.selected;
+	var size = $("#"+tempId).children().size();
+	if(this.subSelected[this.selected] > 0)
+	{
+		this.subSelected[this.selected]--;
+		slideItHorizontal(tempId, true);
+	}
+	else
+	{
+		this.moveSelectionUp();
+	}
+}
+MenuColumn.prototype.moveSelectionRight = function()
+{
+	var tempId = 'frame'+this.selected;
+	var size = $("#"+tempId).children().size();
+	if(this.subSelected[this.selected] < size-1)
+	{
+		this.subSelected[this.selected]++;
+		slideItHorizontal(tempId, false);
+	}
+	else
+	{
+		this.moveSelectionDown();
+	}
+}
+MenuColumn.prototype.updateSelected = function()
+{
+	this.elementList[this.selected].style.background=selectColor;
+}
+MenuColumn.prototype.revertOldSelected = function()
+{
+	this.elementList[this.selected].style.background=this.backgroundColor;
+}
+
+</script>
+</head>
+<body>
+<div id="blue" style="visibility: hidden; position: relative; z-index: 100; float:left; width: 15%; height: 100%; background-color:#333;"></div>
+<div id="content" style="position:relative; z-index:1; float:left; width: 85%;">
+	<div id="frame0" class="frame" style=" width:120%; background-color: black;">
+		<div class="subframe">
+			<div style="position: absolute; width:150%; height:150% z-index:1">		
+				<img width="1920px" height="1053px" src="img/cover.jpg"/>
+						</div>
+			<div style="position: top:0px; left:0px; absolute; z-index:100" class="typeface-js  head1">
+				The Life and Times of Andrew Duensing</div>
+		</div>
+	</div>
+	<div id="frame1" class="frame" style="background-color: black;">
+		<div class="subframe">
+			<div class="typeface-js head1">Cyclist</div>
+			<div class="typeface-js text"> Andrew Duensing used to be quite the badass back in high school and early college. He rode bikes a lot, even raced them too.</div>
+			<div class="bigImageContainer"><img class="imgHeight" src="img/bike1.jpg"/></div>
+		</div>
+		<div class="subframe">
+			<div class="typeface-js head1">Cyclist</div>
+			<div class="typeface-js text"> Andrew looked super cool in his awesome race get up.</div>
+			<div class="bigImageContainer"><img class="imgHeight" src="img/bike2.jpg"/></div>
+		</div>
+		<div class="subframe">
+			<div class="typeface-js head1">Cyclist</div>
+			<div class="typeface-js text">He even went out of state for some races.</div>
+			<div class="bigImageContainer"><img class="imgHeight" src="img/bike3.jpg"/></div>
+		</div>
+		<div class="subframe">
+			<div class="typeface-js head1">Cyclist</div>
+			<div class="typeface-js text">Andrew still rides bikes though, just not as much.</div>
+			<div class="bigImageContainer"><img class="imgWidth" src="img/bike4.jpg"/></div>
+		</div>
+	</div>
+	<div id="frame2" class="frame" style="background-color: black;">
+	<div class="subframe">
+			<div class="typeface-js head1">Programmer</div>
+			<div class="typeface-js text">Now Andrew spends his many of his days programming.</div>
+			<div class="bigImageContainer"><img class="imgWidth" src="img/program1.jpg"/></div>
+		</div>
+		<div class="subframe">
+			<div class="typeface-js head1">Programmer</div>
+			<div class="typeface-js text">He made a program that turns things that look like this...</div>
+			<div style="width:100%; height:80%; color:white; overflow:auto">
+				verb(attack) verb(kills) attribute(alive) attribute(restrained) role(victim) role(aggressor) role(bystander) person(bob) person(carol) person(eve) person(dan) required_story(suicide_story) required_story(assasin_story) required_story(murder_story) required_story(sibling_story) required_action(svo(bob,kills,dan)) required_action(svo(bob,kills,carol),2) t(0) t(1) t(2) t(3) t(4) t(5) t(6) t(7) t(8) verb(ptrans(rock)) verb(ptrans(cash2)) verb(ptrans(cash1)) verb(ptrans(coffee)) verb(propel(rock)) verb(propel(cash2)) verb(propel(cash1)) verb(propel(coffee)) happens(svo(eve,propel(cash2),dan),7) happens(svo(eve,kills,bob),6) happens(svo(bob,ptrans(cash2),eve),6) happens(svo(bob,propel(rock),carol),5) happens(svo(eve,ptrans(cash2),bob),4) happens(svo(bob,ptrans(cash1),eve),4) happens(svo(eve,ptrans(rock),bob),3) happens(svo(bob,ptrans(cash2),eve),3) happens(svo(carol,ptrans(cash1),bob),2) happens(svo(bob,kills,carol),2) happens(svo(dan,kills,dan),0) happens(svo(bob,kills,dan),0) attribute(carries(rock)) attribute(carries(cash2)) attribute(carries(cash1)) attribute(carries(coffee)) attribute(aff(loves,bob)) attribute(aff(loves,carol)) attribute(aff(loves,eve)) attribute(aff(loves,dan)) attribute(aff(hates,bob)) attribute(aff(hates,carol)) attribute(aff(hates,eve)) attribute(aff(hates,dan)) attribute(aff(likes,bob)) attribute(aff(likes,carol)) attribute(aff(likes,eve)) attribute(aff(likes,dan)) holds(attrib(bob,carries(cash2)),0) holds(attrib(carol,carries(cash1)),0) holds(attrib(eve,carries(rock)),0) holds(attrib(bob,alive),0) holds(attrib(carol,alive),0) holds(attrib(eve,alive),0) holds(attrib(dan,alive),0) holds(attrib(bob,aff(likes,dan)),0) holds(attrib(bob,aff(likes,eve)),0) holds(attrib(bob,aff(likes,carol)),0) holds(attrib(bob,aff(likes,bob)),0) holds(attrib(carol,aff(likes,dan)),0) holds(attrib(carol,aff(likes,eve)),0) holds(attrib(carol,aff(likes,carol)),0) holds(attrib(carol,aff(likes,bob)),0) holds(attrib(eve,aff(likes,dan)),0) holds(attrib(eve,aff(likes,eve)),0) holds(attrib(eve,aff(likes,carol)),0) holds(attrib(eve,aff(likes,bob)),0) holds(attrib(dan,aff(likes,dan)),0) holds(attrib(dan,aff(likes,eve)),0) holds(attrib(dan,aff(likes,carol)),0) holds(attrib(dan,aff(likes,bob)),0) holds(attrib(dan,aff(likes,bob)),1) holds(attrib(dan,aff(likes,carol)),1) holds(attrib(dan,aff(likes,eve)),1) holds(attrib(dan,aff(likes,dan)),1) holds(attrib(eve,aff(likes,bob)),1) holds(attrib(eve,aff(likes,carol)),1) holds(attrib(eve,aff(likes,eve)),1) holds(attrib(eve,aff(likes,dan)),1) holds(attrib(carol,aff(likes,bob)),1) holds(attrib(carol,aff(likes,carol)),1) holds(attrib(carol,aff(likes,eve)),1) holds(attrib(carol,aff(likes,dan)),1) holds(attrib(bob,aff(likes,bob)),1) holds(attrib(bob,aff(likes,carol)),1) holds(attrib(bob,aff(likes,eve)),1) holds(attrib(bob,aff(likes,dan)),1) holds(attrib(eve,alive),1) holds(attrib(carol,alive),1) holds(attrib(bob,alive),1) holds(attrib(eve,carries(rock)),1) holds(attrib(carol,carries(cash1)),1) holds(attrib(bob,carries(cash2)),1) holds(attrib(bob,carries(cash2)),2) holds(attrib(carol,carries(cash1)),2) holds(attrib(eve,carries(rock)),2) holds(attrib(bob,alive),2) holds(attrib(carol,alive),2) holds(attrib(eve,alive),2) holds(attrib(bob,aff(likes,dan)),2) holds(attrib(bob,aff(likes,eve)),2) holds(attrib(bob,aff(likes,carol)),2) holds(attrib(bob,aff(likes,bob)),2) holds(attrib(carol,aff(likes,dan)),2) holds(attrib(carol,aff(likes,eve)),2) holds(attrib(carol,aff(likes,carol)),2) holds(attrib(carol,aff(likes,bob)),2) holds(attrib(eve,aff(likes,dan)),2) holds(attrib(eve,aff(likes,eve)),2) holds(attrib(eve,aff(likes,carol)),2) holds(attrib(eve,aff(likes,bob)),2) holds(attrib(dan,aff(likes,dan)),2) holds(attrib(dan,aff(likes,eve)),2) holds(attrib(dan,aff(likes,carol)),2) holds(attrib(dan,aff(likes,bob)),2) holds(attrib(dan,aff(likes,bob)),3) holds(attrib(dan,aff(likes,carol)),3) holds(attrib(dan,aff(likes,eve)),3) holds(attrib(dan,aff(likes,dan)),3) holds(attrib(eve,aff(likes,bob)),3) holds(attrib(eve,aff(likes,carol)),3) holds(attrib(eve,aff(likes,eve)),3) holds(attrib(eve,aff(likes,dan)),3) holds(attrib(carol,aff(likes,bob)),3) holds(attrib(carol,aff(likes,carol)),3) holds(attrib(carol,aff(likes,eve)),3) holds(attrib(carol,aff(likes,dan)),3) holds(attrib(bob,aff(likes,bob)),3) holds(attrib(bob,aff(likes,carol)),3) holds(attrib(bob,aff(likes,eve)),3) holds(attrib(bob,aff(likes,dan)),3) holds(attrib(eve,alive),3) holds(attrib(bob,alive),3) holds(attrib(eve,carries(rock)),3) holds(attrib(bob,carries(cash2)),3) holds(attrib(bob,carries(cash1)),3) holds(attrib(bob,carries(cash1)),4) holds(attrib(bob,carries(rock)),4) holds(attrib(eve,carries(cash2)),4) holds(attrib(bob,alive),4) holds(attrib(eve,alive),4) holds(attrib(bob,aff(likes,dan)),4) holds(attrib(bob,aff(likes,eve)),4) holds(attrib(bob,aff(likes,carol)),4) holds(attrib(bob,aff(likes,bob)),4) holds(attrib(carol,aff(likes,dan)),4) holds(attrib(carol,aff(likes,eve)),4) holds(attrib(carol,aff(likes,carol)),4) holds(attrib(carol,aff(likes,bob)),4) holds(attrib(eve,aff(likes,dan)),4) holds(attrib(eve,aff(likes,eve)),4) holds(attrib(eve,aff(likes,carol)),4) holds(attrib(eve,aff(likes,bob)),4) holds(attrib(dan,aff(likes,dan)),4) holds(attrib(dan,aff(likes,eve)),4) holds(attrib(dan,aff(likes,carol)),4) holds(attrib(dan,aff(likes,bob)),4) holds(attrib(dan,aff(likes,bob)),5) holds(attrib(dan,aff(likes,carol)),5) holds(attrib(dan,aff(likes,eve)),5) holds(attrib(dan,aff(likes,dan)),5) holds(attrib(eve,aff(likes,bob)),5) holds(attrib(eve,aff(likes,carol)),5) holds(attrib(eve,aff(likes,eve)),5) holds(attrib(eve,aff(likes,dan)),5) holds(attrib(carol,aff(likes,bob)),5) holds(attrib(carol,aff(likes,carol)),5) holds(attrib(carol,aff(likes,eve)),5) holds(attrib(carol,aff(likes,dan)),5) holds(attrib(bob,aff(likes,bob)),5) holds(attrib(bob,aff(likes,carol)),5) holds(attrib(bob,aff(likes,eve)),5) holds(attrib(bob,aff(likes,dan)),5) holds(attrib(eve,alive),5) holds(attrib(bob,alive),5) holds(attrib(eve,carries(cash1)),5) holds(attrib(bob,carries(rock)),5) holds(attrib(bob,carries(cash2)),5) holds(attrib(bob,carries(cash2)),6) holds(attrib(eve,carries(cash1)),6) holds(attrib(bob,alive),6) holds(attrib(eve,alive),6) holds(attrib(bob,aff(likes,dan)),6) holds(attrib(bob,aff(likes,eve)),6) holds(attrib(bob,aff(likes,carol)),6) holds(attrib(bob,aff(likes,bob)),6) holds(attrib(carol,aff(likes,dan)),6) holds(attrib(carol,aff(likes,eve)),6) holds(attrib(carol,aff(likes,carol)),6) holds(attrib(carol,aff(likes,bob)),6) holds(attrib(eve,aff(likes,dan)),6) holds(attrib(eve,aff(likes,eve)),6) holds(attrib(eve,aff(likes,carol)),6) holds(attrib(eve,aff(likes,bob)),6) holds(attrib(dan,aff(likes,dan)),6) holds(attrib(dan,aff(likes,eve)),6) holds(attrib(dan,aff(likes,carol)),6) holds(attrib(dan,aff(likes,bob)),6) holds(attrib(dan,aff(likes,bob)),7) holds(attrib(dan,aff(likes,carol)),7) holds(attrib(dan,aff(likes,eve)),7) holds(attrib(dan,aff(likes,dan)),7) holds(attrib(eve,aff(likes,bob)),7) holds(attrib(eve,aff(likes,carol)),7) holds(attrib(eve,aff(likes,eve)),7) holds(attrib(eve,aff(likes,dan)),7) holds(attrib(carol,aff(likes,bob)),7) holds(attrib(carol,aff(likes,carol)),7) holds(attrib(carol,aff(likes,eve)),7) holds(attrib(carol,aff(likes,dan)),7) holds(attrib(bob,aff(likes,bob)),7) holds(attrib(bob,aff(likes,carol)),7) holds(attrib(bob,aff(likes,eve)),7) holds(attrib(bob,aff(likes,dan)),7) holds(attrib(eve,alive),7) holds(attrib(eve,carries(cash2)),7) holds(attrib(eve,carries(cash1)),7) holds(attrib(eve,carries(cash1)),8) holds(attrib(eve,alive),8) holds(attrib(bob,aff(likes,dan)),8) holds(attrib(bob,aff(likes,eve)),8) holds(attrib(bob,aff(likes,carol)),8) holds(attrib(bob,aff(likes,bob)),8) holds(attrib(carol,aff(likes,dan)),8) holds(attrib(carol,aff(likes,eve)),8) holds(attrib(carol,aff(likes,carol)),8) holds(attrib(carol,aff(likes,bob)),8) holds(attrib(eve,aff(likes,dan)),8) holds(attrib(eve,aff(likes,eve)),8) holds(attrib(eve,aff(likes,carol)),8) holds(attrib(eve,aff(likes,bob)),8) holds(attrib(dan,aff(likes,dan)),8) holds(attrib(dan,aff(likes,eve)),8) holds(attrib(dan,aff(likes,carol)),8) holds(attrib(dan,aff(likes,bob)),8) holds(attrib(bob,restrained),8) holds(attrib(bob,restrained),7) holds(attrib(carol,restrained),8) holds(attrib(carol,restrained),7) holds(attrib(carol,restrained),6) holds(attrib(carol,restrained),5) holds(attrib(carol,restrained),4) holds(attrib(carol,restrained),3) holds(attrib(dan,restrained),8) holds(attrib(dan,restrained),7) holds(attrib(dan,restrained),6) holds(attrib(dan,restrained),5) holds(attrib(dan,restrained),4) holds(attrib(dan,restrained),3) holds(attrib(dan,restrained),2) holds(attrib(dan,restrained),1) holds(attrib(bob,aff(hates,bob)),8) holds(attrib(bob,aff(hates,bob)),7) holds(attrib(bob,aff(hates,bob)),6) holds(attrib(bob,aff(hates,bob)),5) holds(attrib(bob,aff(hates,bob)),4) holds(attrib(bob,aff(hates,bob)),3) holds(attrib(bob,aff(hates,bob)),2) holds(attrib(bob,aff(hates,bob)),1) holds(attrib(bob,aff(hates,eve)),8) holds(attrib(bob,aff(hates,eve)),7) holds(attrib(bob,aff(hates,dan)),8) holds(attrib(bob,aff(hates,dan)),7) holds(attrib(bob,aff(hates,dan)),6) holds(attrib(bob,aff(hates,dan)),5) holds(attrib(bob,aff(hates,dan)),4) holds(attrib(bob,aff(hates,dan)),3) holds(attrib(bob,aff(hates,dan)),2) holds(attrib(bob,aff(hates,dan)),1) holds(attrib(carol,aff(hates,bob)),8) holds(attrib(carol,aff(hates,bob)),7) holds(attrib(carol,aff(hates,bob)),6) holds(attrib(carol,aff(hates,bob)),5) holds(attrib(carol,aff(hates,bob)),4) holds(attrib(carol,aff(hates,bob)),3) holds(attrib(carol,aff(hates,bob)),2) holds(attrib(carol,aff(hates,bob)),1) holds(attrib(carol,aff(hates,eve)),8) holds(attrib(carol,aff(hates,eve)),7) holds(attrib(carol,aff(hates,dan)),8) holds(attrib(carol,aff(hates,dan)),7) holds(attrib(carol,aff(hates,dan)),6) holds(attrib(carol,aff(hates,dan)),5) holds(attrib(carol,aff(hates,dan)),4) holds(attrib(carol,aff(hates,dan)),3) holds(attrib(carol,aff(hates,dan)),2) holds(attrib(carol,aff(hates,dan)),1) holds(attrib(eve,aff(hates,bob)),8) holds(attrib(eve,aff(hates,bob)),7) holds(attrib(eve,aff(hates,bob)),6) holds(attrib(eve,aff(hates,bob)),5) holds(attrib(eve,aff(hates,bob)),4) holds(attrib(eve,aff(hates,bob)),3) holds(attrib(eve,aff(hates,bob)),2) holds(attrib(eve,aff(hates,bob)),1) holds(attrib(eve,aff(hates,eve)),8) holds(attrib(eve,aff(hates,eve)),7) holds(attrib(eve,aff(hates,dan)),8) holds(attrib(eve,aff(hates,dan)),7) holds(attrib(eve,aff(hates,dan)),6) holds(attrib(eve,aff(hates,dan)),5) holds(attrib(eve,aff(hates,dan)),4) holds(attrib(eve,aff(hates,dan)),3) holds(attrib(eve,aff(hates,dan)),2) holds(attrib(eve,aff(hates,dan)),1) holds(attrib(dan,aff(hates,bob)),8) holds(attrib(dan,aff(hates,bob)),7) holds(attrib(dan,aff(hates,bob)),6) holds(attrib(dan,aff(hates,bob)),5) holds(attrib(dan,aff(hates,bob)),4) holds(attrib(dan,aff(hates,bob)),3) holds(attrib(dan,aff(hates,bob)),2) holds(attrib(dan,aff(hates,bob)),1) holds(attrib(dan,aff(hates,eve)),8) holds(attrib(dan,aff(hates,eve)),7) holds(attrib(dan,aff(hates,dan)),8) holds(attrib(dan,aff(hates,dan)),7) holds(attrib(dan,aff(hates,dan)),6) holds(attrib(dan,aff(hates,dan)),5) holds(attrib(dan,aff(hates,dan)),4) holds(attrib(dan,aff(hates,dan)),3) holds(attrib(dan,aff(hates,dan)),2) holds(attrib(dan,aff(hates,dan)),1) expectation_realized(murder(bob,carol),2) expectation_realized(murder(bob,dan),0) expectation_realized(murder(eve,bob),6) expectation_realized(suicide(dan),0) expectation_realized(selling(eve,rock,bob),3) expectation_realized(premeditated_attack(bob,carol),5) is_related(friend,carol,bob) is_related(friend,eve,bob) is_related(friend,dan,bob) is_related(friend,bob,carol) is_related(friend,eve,carol) is_related(friend,dan,carol) is_related(friend,bob,eve) is_related(friend,carol,eve) is_related(sibling,dan,eve) is_related(parent,dan,eve) is_related(friend,bob,dan) is_related(friend,carol,dan) is_related(sibling,eve,dan) on_stage(dan,8) on_stage(eve,7) on_stage(dan,7) on_stage(bob,6) on_stage(eve,6) on_stage(bob,5) on_stage(carol,5) on_stage(bob,4) on_stage(eve,4) on_stage(bob,3) on_stage(eve,3) on_stage(bob,2) on_stage(carol,2) on_stage(dan,1) on_stage(bob,0) on_stage(dan,0) role_satisfied(victim,dan) role_satisfied(victim,carol) role_satisfied(victim,bob) role_satisfied(aggressor,bob) role_satisfied(aggressor,eve) role_satisfied(aggressor,dan) role_satisfied(bystander,bob) role_satisfied(bystander,carol) role_satisfied(bystander,eve) role_satisfied(bystander,dan)  
+			</div>
+		</div>
+		<div class="subframe">
+			<div class="typeface-js head1">Programmer</div>
+			<div class="typeface-js text">Into this.</div>
+			<iframe style="width:100%; height:80%" src="http://citrusfruits.co.nf/Rolemodel/storyfiles/story015.html">
+				<p>Your browser does not support iframes.</p>
+			</iframe>
+		</div>
+	</div>
+	<div id="frame3" class="frame" style="background-color: black;">
+		<div class="subframe">
+			<div class="typeface-js head1">Gamer</div>
+			<div class="typeface-js text">Andrew is also a pretty hardcore gamer.</div>
+			<div class="bigImageContainer"><img class="imgHeight" src="img/gamer1.jpg"/></div>
+		</div>
+		<div class="subframe">
+			<div class="typeface-js head1">Gamer</div>
+			<div class="typeface-js text">Check out his sweet setup.</div>
+			<div class="bigImageContainer"><img class="imgHeight" src="img/gamer2.jpg"/></div>
+		</div>
+	</div>
+	<div id="frame4"class="frame" style="background-color: black;">
+		<div class="subframe">
+			<div class="typeface-js head1">Christian</div>
+			<div class="typeface-js text">Andrew is a Christian.</div>
+			<div class="bigImageContainer"><img class="imgHeight" src="img/christian1.jpg"/></div>
+		</div>
+		<div class="subframe">
+			<div class="typeface-js head1">Christian</div>
+			<div class="typeface-js text">Here's him and a giant Christian conference.</div>
+			<div class="bigImageContainer"><img class="imgHeight" src="img/christian2.jpg"/></div>
+		</div>
+		<div class="subframe">
+			<div class="typeface-js head1">Christian</div>
+			<div class="typeface-js text">Here Andrew is with some of his super cool Christian friends.</div>
+			<div class="bigImageContainer"><img class="imgHeight" src="img/christian3.jpg"/></div>
+		</div>
+	</div>
+	<!-- <div id="frame5" class="frame" style="background-color: red;">
+		<div class="typeface-js head1">Maker of Games</div>
+			<div class="typeface-js text">Now Andrew spends his many of his days programming.</div>
+			<div class="bigImageContainer"><img class="imgWidth" src="img/program1.jpg"/></div>
+		</div>
+		<div class="subframe">
+			<div class="typeface-js head1">Maker of Games</div>
+			<div class="typeface-js text">He made a program that turns things that look like this</div>
+				<iframe style="width:100%; height:80%" src="/Release/play.html">
+				<p>Your browser does not support iframes.</p>
+			</iframe>
+		</div>
+		<div class="subframe"> -->
+	</div>
+</div>
+
+</div>
+</body>
+</html>
