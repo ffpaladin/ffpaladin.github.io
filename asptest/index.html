@@ -1,0 +1,42 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+      <meta charset="utf-8">
+      <title>Maze Gen</title>
+      <link rel="stylesheet" type="text/css" href="main.css"> 
+  </head>
+
+<body>
+
+via Adam Smith: http://jsfiddle.net/rndmcnlly/L8J6f/
+<br />
+http://adamsmith.as/
+<br />
+<script language="text/asp-core-2" id="code">
+dim(1..width).
+
+1 { parent(X,Y, 0,-1);
+	parent(X,Y, 1, 0);
+	parent(X,Y,-1, 0);
+	parent(X,Y, 0, 1) } 1 :-
+	dim(X), dim(Y), (X,Y) != (1,1).
+
+linked(1,1).
+linked(X,Y) :- parent(X,Y,DX,DY), linked(X+DX,Y+DY).
+
+:- dim(X;Y), not linked(X,Y).
+
+segment(X,Y,X+DX,Y+DY) :- parent(X,Y,DX,DY), (X,Y) < (X+DX,Y+DY).
+
+segment(X+DX,Y+DY,X,Y) :- parent(X,Y,DX,DY), (X+DX,Y+DY) < (X,Y).
+
+:- locked(X1,Y1,X2,Y2), not segment(X1,Y1,X2,Y2).
+
+</script>
+
+<script src="d3.v3.js"></script>
+<script src="fiddle_suite.js"></script>
+<script src="mazegen.js"></script>
+
+</body>
