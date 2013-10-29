@@ -1,4 +1,4 @@
-  $(document).ready(init);
+//  $(document).ready(init);
         
         var MOVE_DURATION = 700;
         var CONTAINER_WIDTH;
