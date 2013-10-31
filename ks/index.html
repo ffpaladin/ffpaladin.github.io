@@ -1,46 +1,13 @@
-<!doctype html>
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<title>story!</title>
-		<link href="styles/main.css" rel="stylesheet" />
-	</head>
-
-	<body>
-			
-		<div id="impress">
-			<div id="slide1" class="step slide">
-				<div class="slide-text">
-					<p>There's a time machine over there.  Flip the switch?</p>
-					<p><a href='#slide2'>FLIP</a> it.</p>
-					<p><a href='#slide3'>WAIT</a> for your dad, who is a scientist, to come home</p>
-					<div class="event-text"></div>
-				</div>
-			</div>
-			<div id="slide2" class="step slide" data-x="1000">
-				<div class="slide-text">
-					<p>Woah.  A dinosaur.  I wonder if you can hit it with something...</p>
-					<div class="event-text"></div>
-				</div>
-			</div>
-			<div id="slide3" class="step slide" data-x="2000">
-				<div class="slide-text">
-					<p>You hung around for a while, and then your dad came home.</p>
-					<p>Then he helped you with your homework.</p>
-					<p>It was kind of fun, but not that much fun.</p>
-					<div class="event-text"></div>
-				</div>
-				<div class="menu"><a href="#" onclick='location = window.location.pathname; return false;'>START OVER</a></div>
-			</div>
-		</div>
-
-		<script src="scripts/impress.js"></script>
-		<script>impress().init();</script>
-		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
-		<script>!window.jQuery && document.write('<script src="scripts/jquery-1.4.1.min.js"><\/script>')</script>
-		<script src="scripts/game.js"></script>
-		<script src="scripts/dragDrop.js"></script>
-
-		</body>
-	</html>
-
+<html>
+    <link rel="stylesheet" type="text/css" href="styles/main.css">
+    <title>Kaleidoscope</title>
+    <h1>Kaleidoscope</h1>
+    <body>
+        <div style="margin:auto;width:800px;">		
+			<div  style="margin:auto" class="frame">
+                <div style="text-align:center" class="frame-content">
+                   <a href="story.html">Tell me a story.</a>
+                </div>
+            </div>	
+    </body>
+</html>
