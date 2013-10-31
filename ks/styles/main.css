@@ -9,11 +9,21 @@
  * black: #0d1615
  */
 body{
-    background-color:#B5A7D1;
+   /* background-color:#B5A7D1;*/
     color:#fffaf4;
     font-family: sans-serif;
     font-size: 20px;
     overflow: hidden;
+    margin: 0px;
+
+  background: #ffffff; /* Old browsers */
+background: -moz-linear-gradient(top, #ffffff 0%, #b5a7d1 70%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(70%,#b5a7d1)); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top, #ffffff 0%,#b5a7d1 70%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(top, #ffffff 0%,#b5a7d1 70%); /* Opera 11.10+ */
+background: -ms-linear-gradient(top, #ffffff 0%,#b5a7d1 70%); /* IE10+ */
+background: linear-gradient(to bottom, #ffffff 0%,#b5a7d1 70%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#b5a7d1',GradientType=0 ); /* IE6-9 */
 }
 h1{
     font-size: 40px;
@@ -47,18 +57,10 @@ h1{
 .left{
 	position: fixed; left:0px; top:50%;
 	background-image:url('../images/misc/arrow.png');
-	width:50px; height:100px;
+	width:49px; height:99px;
 }
 .right{
 	position: fixed; right:0px; top:50%;
-	background-image:url('../images/misc/arrow.png') ;
-	width:50px; height:100px;
-	
-	/*flip it*/
-	-moz-transform: scaleX(-1);
-    -o-transform: scaleX(-1);
-    -webkit-transform: scaleX(-1);
-    transform: scaleX(-1);
-    filter: FlipH;
-    -ms-filter: "FlipH";
+	background-image:url('../images/misc/arrow-flipped.png') ;
+	width:49px; height:99px;
 }
