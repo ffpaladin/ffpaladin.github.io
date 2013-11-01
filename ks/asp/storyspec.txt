@@ -1,0 +1,80 @@
+person(al).		% initialize al
+person(parry).		% initialize parry
+person(eliza).		% initialize eliza
+
+
+% initialization means all characters are alive and strangers
+
+
+
+%% SCENE 1 - Establish Al and Parry are brothers
+
+% presentation predicate is used for the visualizing of the story
+
+presentation(attrib(al,rel(brother,parry)),1).
+
+
+
+%% SCENE 2 - Eliza is introduced
+
+presentation(attrib(eliza,rel(acquaintance,parry)),2).
+presentation(attrib(eliza,rel(acquaintance,al)),2).
+
+
+
+%% SCENE 3 - Eliza pairs up with Al
+
+presentation(attrib(eliza,rel(couple,al)),3).
+
+
+
+%% SCENE 4 - Parry is distraught
+
+%presentation(attrib(parry,unhappy),4).
+
+
+
+%% SCENE 5 - Al dies
+
+presentation(svo(parry,kills,al),5).
+
+forbidden_action(svo(P,kills,eliza)).
+forbidden_action(svo(P,kills,parry)).
+
+
+
+
+
+% this is the author file
+% input data goes in this file
+
+%person(alice).
+%person(bob).
+%person(carol).
+%person(eve).
+%person(dan).
+
+% Initial Characters
+
+%person(al).
+%person(eliza).
+%person(parry).
+%person(sherol).
+
+% Character Relationships
+
+%is_related(spouse,al,eliza).
+%is_related(sibling,al,parry).
+
+%initially(attrib(parry,aff(loves,eliza))).
+
+%required_story(suicid_story).
+%required_story(assasin_story).
+%required_story(murder_story).
+
+%required_story(sibling_story).
+%required_action(svo(parry,kills,al)).
+%forbidden_action(svo(P,kills,eliza)).
+%forbidden_action(svo(P,kills,parry)).
+
+%required_action(svo(bob,kills,carol),2).
