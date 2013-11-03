@@ -25,21 +25,38 @@
 #domain object(O2).
 #domain fluent(F).
 #domain t(T).
+#domain t(T1).
 #domain trait(Tr).
 #domain attribute(A).
 #domain verb(V).
 #domain verb(V1).
 #domain verb(V2).
 #domain affinity(Af).
-#domain relation(R).
+#domain relation(Re).
+#domain expectation(X).
+#domain expectation(X1).
+#domain expectation(X2).
+#domain role(R).
+#domain event(E).
+#domain motivation(M).
+#domain desires(D).
 
+motivation(motiv(X,S1,S2)) :- S1 != S2.
 subject(P).
 fluent(attrib(P,A)).
 event(svo(S1,V,S2)).
 attribute(aff(Af,S)).
-attribute(rel(R,S)).
+attribute(rel(Re,S)).
+attribute(wants(M)).
+attribute(carries(O)).
+attribute(alive).
+attribute(restrained).
+attribute(unhappy).
+attribute(inactive).
 
-
+desires(love).
+desires(selfish).
+desires(crazy).
 % this needs to change
 has_trait(P,Tr).
 
@@ -71,9 +88,9 @@ has_trait(P,Tr).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-:- presentation(attrib(P,A),T), not holds(attrib(P,A),T).
+:- author_spec(attrib(P,A),T), not holds(attrib(P,A),T).
 
-:- presentation(svo(S1,V,S2),T), not happens(svo(S1,V,S2),T). 
+:- author_spec(svo(S1,V,S2),T), not happens(svo(S1,V,S2),T). 
 
 
 
@@ -83,16 +100,18 @@ has_trait(P,Tr).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+:- required_role(R,P), not role_satisfied(R,P).
+:- forbidden_role(R,P), role_satisfied(R,P).
 
 %% expectations
 
-:- required_expectation(Ex), not expectation_realized(Ex,T).
-:- forbidden_expectation(Ex), expectation_realized(Ex,T).
+:- required_expectation(X,S1,S2,T), not expectation_realized(X,S1,S2,T).
+:- forbidden_expectation(X,S1,S2,T), expectation_realized(X,S1,S2,T).
 
 %% story
 
-:- required_story(St), not story(St).
-:- forbidden_story(St), story(St).
+%:- required_story(St), not story(St).
+%:- forbidden_story(St), story(St).
 
 
 action_satisfied(E) :- happens(E,T).
@@ -134,14 +153,22 @@ action_satisfied(E) :- happens(E,T).
 
 1 {on_stage(Su,T):subject(Su) } 2 :- t(T).
 
-:- happens(svo(S,V,P),T), not on_stage(S,T). % actor must be on stage
-:- happens(svo(S,V,S2),T), subject(S2), not on_stage(S2,T). % if object is a person, they must be on stage also
+:- happens(svo(S,V,P),T),  
+	not on_stage(S,T). % actor must be on stage
 
+:- happens(svo(S,V,S2),T),  
+	not on_stage(S2,T). % if object is a person, they must be on stage also
+
+
+:- happens(svo(S,V,S1),T), holds(attrib(S,inactive),T).
+
+:- happens(svo(S,V,S1),T), holds(attrib(S1,inactive),T).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%
 %%%% TIMEPOINTS
+
 %%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -178,6 +205,9 @@ t(0..t_max).
 
 { has_trait(Tr,P) } :- trait(Tr).
 
+% dont abduce motivations
+{ initially(attrib(P,wants(M))) }.
+
 %{ sentiment(S,V,O,T,Fe):feeling(Fe) } 1 :- happens(S,V,O,T).
 %{ context(S,V,O,T,D) } :- contextualizes(D,V), happens(S,V,O,T).
 
@@ -192,20 +222,22 @@ t(0..t_max).
 obj_type(weapon).
 obj_type(projectile).
 obj_type(money).
-obj_type(food).
+obj_type(gift).
 
 obj_is(cash1,money).
 obj_is(cash2,money).
 
 obj_is(sword;knife;gun,weapon).
 
+obj_is(apple;flowers,gift).
 
 object(sword).
 object(apple).
 object(cash1).
 object(cash2).
 object(knife).
-object(gun).
+object(flowers).
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -221,15 +253,33 @@ verb(ptrans(O)).
 verb(propel(O)).
 verb(attacks(O)).
 verb(kills).
+verb(mtrans(M)).  % transfer expectation to be performed
+verb(idle).
 
-harms(kills).
-harms(attacks(O)).
+possible(svo(S,idle,S),T).
+
+
+% Mental Transfers: MTRANS
+
+possible(svo(S1,mtrans(M),S2),T) :- not holds(attrib(S2,wants(M)),T),
+       	not holds(attrib(S1,restrained),T),
+	not holds(attrib(S2,restrained),T).
+
+
+
+%initiates(svo(S1,mtrans(M),S2),attrib(S2,wants(M)),T).
 
 % PROPEL and TRANSFER
+% do not give away a gift
 possible(svo(S1,ptrans(O),S2),T) :- 
 	holds(attrib(S1,carries(O)),T), S1 != S2,
 	not holds(attrib(S1,restrained),T),
-	not holds(attrib(S2,restrained),T).
+	not holds(attrib(S2,restrained),T),
+	not regifted(O,T).
+
+regifted(O,T) :- holds(attrib(S1,carries(O)),T),
+	happens(svo(S,ptrans(O),S1),T1),
+	T1<T.
 
 possible(svo(S1,propel(O),S2),T) :- 
 	holds(attrib(S1,carries(O)),T), S1 != S2,
@@ -269,10 +319,6 @@ initiates(svo(S1,kills,S2),attrib(S2,restrained),T).
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-attribute(carries(O)).
-attribute(alive).
-attribute(restrained).
-attribute(unhappy).
 
 % INITIALIZATION
 % everyone lives! and everyone is a stranger
@@ -300,7 +346,6 @@ affinity(indifferent).
 %	holds(attrib(S3,aff(likes,S2)),T).
 
 
-
 % New Relationships
 
 
@@ -313,37 +358,43 @@ relation(brother).
 % show brotherhood
  
 initially(attrib(S1,rel(brother,S2))) :- 
-		presentation(attrib(S1,rel(brother,S2)),T),
+		author_spec(attrib(S1,rel(brother,S2)),T),
 		S1!=S2.
 initially(attrib(S2,rel(brother,S1))) :-
-                presentation(attrib(S1,rel(brother,S2)),T),
+                author_spec(attrib(S1,rel(brother,S2)),T),
 		S1!=S2.
 
 % meeting someone
 
 initiated(attrib(S1,rel(acquaintance,S2)),T) :- 
-		presentation(attrib(S1,rel(acquaintance,S2)),T+1),
+		author_spec(attrib(S1,rel(acquaintance,S2)),T+1),
 		S1!=S2.
 
 initiated(attrib(S2,rel(acquaintance,S1)),T) :-
-                presentation(attrib(S1,rel(acquaintance,S2)),T+1),
+                author_spec(attrib(S1,rel(acquaintance,S2)),T+1),
 		S1!=S2.
 
 % becoming a couple
 
 initiated(attrib(S1,rel(couple,S2)),T) :-
-                presentation(attrib(S1,rel(couple,S2)),T+1).
+                author_spec(attrib(S1,rel(couple,S2)),T+1).
 initiated(attrib(S2,rel(couple,S1)),T) :-
-               presentation(attrib(S1,rel(couple,S2)),T+1).
+               author_spec(attrib(S1,rel(couple,S2)),T+1).
+required_expectation(wooed,S1,S2,T) :- author_spec(attrib(S1,rel(couple,S2)),T).
 
 % if at time T you have a relationship that nots stranger, terminate stranger
 
 terminated(attrib(S1,rel(stranger,S2)),T) :- holds(attrib(S1,rel(stranger,S2)),T), 
-					holds(attrib(S1,rel(R,S2)),T),
-					R!=stranger.
+					holds(attrib(S1,rel(Re,S2)),T),
+					Re!=stranger.
+terminated(attrib(S,inactive),T-1) :- author_spec(svo(S,introduces,S),T).
 
 
-initiated(attrib(S,A),T) :- presentation(attrib(S,unhappy),T+1).
+initiated(attrib(S,unhappy),T-1) :- author_spec(attrib(S,unhappy),T).
+
+presentation(atrib(S,A),T) :- author_spec(attrib(S,A),T).
+presentation(svo(S,V,S1),T) :- author_spec(svo(S,V,S1),T).
+
 
 % Old Relationships -----------
 
@@ -423,14 +474,12 @@ initiated(attrib(S,A),T) :- presentation(attrib(S,unhappy),T+1).
 % (2) wants to be liked/loved
 % (3) wants an object
 
-desire(like_of(S)).
-desire(love_of(S)).
-desire(have(O)).
-
-#domain motivation(M).
+%desire(like_of(S)).
+%desire(love_of(S)).
+%desire(have(O)).
 
 % no event can happen if it is not motivated
-:- happens(E,T), not motivated(E,M,T).
+%:- happens(E,T), not motivated(E,M,T).
 
 
 % no expectations can happen unmotivated
@@ -449,18 +498,18 @@ desire(have(O)).
 % reasons to kill
 
 % you desire what they have
-motivated(svo(S1,kills,S2),have(O),T) :- desires(S1,have(O)), 
-	holds(attrib(S2,carries(O)),T).
+%motivated(svo(S1,kills,S2),have(O),T) :- desires(S1,have(O)), 
+%	holds(attrib(S2,carries(O)),T).
 
-motivated(svo(S1,kills,S2),love_of(S3),T) :- desires(S1,love_of(S3)), 
-					is_related(spouse,S3,S2).
+%motivated(svo(S1,kills,S2),love_of(S3),T) :- desires(S1,love_of(S3)), 
+%					is_related(spouse,S3,S2).
 
 % reason to transfer, b/c of selling
-motivated(svo(S1,ptrans(O),S2),selling,T) :- expectation_realized(selling(S1,O,S2),T).
+%motivated(svo(S1,ptrans(O),S2),selling,T) :- expectation_realized(selling(S1,O,S2),T).
 
 % reason to transer $$, b/c of selling
-motivated(svo(S1,ptrans(O),S2),buying,T) :- expectation_realized(selling(S2,O1,S1),T), 
-						obj_is(money,O).
+%motivated(svo(S1,ptrans(O),S2),buying,T) :- expectation_realized(selling(S2,O1,S1),T), 
+%						obj_is(money,O).
 
 
 
@@ -476,30 +525,33 @@ motivated(svo(S1,ptrans(O),S2),buying,T) :- expectation_realized(selling(S2,O1,S
 
 #hide.
 
-#show happens(E,T).
-#show expectation_realized(X,T).
-#show holds(_,T).
-%#show initially(F).
-#show person(P).
-%#show is_related(Re,S1,S2).
-
-#show required_story(St).
-#show forbidden_story(St).
-#show required_expectation(Ex).
-#show forbidden_expectation(Ex).
-#show required_action(E).
-#show forbidden_action(E).
-#show required_action(E,T).
-#show forbidden_action(E,T).
-#show on_stage(S,T).
-
-#show attribute(A).
-#show verb(V).
-#show t(T).
-#show role_satisfied(R,P).
-#show role(R).
-#show motivated(E,M,T).
 #show presentation(_,T).
+%#show required_story(St).
+%#show expectation_realized(X,S1,S2,T).
+#show happens(E,T).
+%#show forbidden_story(St).
+#show harm_nullified(_,_,_,_).
+%#show required_action(E).
+%#show on_stage(S,T).
+%#show forbidden_action(E,T).
+#show role_satisfied(R,P).
+%#show required_action(E,T).
+%#show author_spec(_,T).
+
+%#show required_expectation(Ex).
+%#show is_related(Re,S1,S2).
+%#show person(P).
+%#show initially(F).
+%#show holds(attrib(P,restrained),T).
+%#show forbidden_expectation(Ex).
+%#show forbidden_action(E).
+%#show possible(svo(S,V,S1),T).
+%#show attribute(A).
+%#show verb(V).
+%#show t(T).
+%#show role(R).
+%#show motivated(E,M,T).
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
