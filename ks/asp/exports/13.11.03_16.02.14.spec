@@ -1,3 +1,7 @@
+
+
+
+
 person(al).		% initialize al
 person(parry).		% initialize parry
 person(eliza).		% initialize eliza
