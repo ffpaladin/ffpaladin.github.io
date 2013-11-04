@@ -1,7 +1,6 @@
-//  $(document).ready(init);
-        
         var MOVE_DURATION = 700;
         var CONTAINER_WIDTH;
+        var LOOP = false;
 
         var keys = { left : 37, up : 38, right : 39, down : 40};
 	
@@ -43,18 +42,20 @@
                         this.pos+=100;
                         animate = true;
                     }
-					//looping going right
-                    else if(!left && this.pos == -CONTAINER_WIDTH + 100){
-						this.pos = 0;
-						animate = true;
-						animateLong = true;
-					}
-					//looping going left
-					else if(left && this.pos == 0){
-						this.pos = -CONTAINER_WIDTH + 100;
-						animate = true;
-						animateLong = true;
-					}
+                    if(LOOP){
+    					//looping going right
+                        if(!left && this.pos == -CONTAINER_WIDTH + 100){
+    						this.pos = 0;
+    						animate = true;
+    						animateLong = true;
+    					}
+    					//looping going left
+    					else if(left && this.pos == 0){
+    						this.pos = -CONTAINER_WIDTH + 100;
+    						animate = true;
+    						animateLong = true;
+    					}
+                    }
                     if(animate){
 						if(animateLong)
 							duration = CONTAINER_WIDTH*MOVE_DURATION/300;
