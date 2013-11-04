@@ -35,7 +35,7 @@ harms(cheated).
 harms(assaulted).
 harms(lost_friend).
 
-presentation(motiv(X,S1,S2),T) :- expectation_realized(X,S1,S2,T).
+%presentation(motiv(X,S1,S2),T) :- expectation_realized(X,S1,S2,T).
 
 expectation_realized(murdered,S1,S2,T) :- happens(svo(S1,kills,S2),T).
 % knowing the properties of murdered. i did a T+1
@@ -98,6 +98,10 @@ expectation_realized(indifferent_tragedy,S1,S2,T) :-
 		        expectation_realized(X,S2,S1,T).
 			happens(svo(S1,mtrans(indifferent_tragedy,S,S1),S1),T).
 
+presentation(attrib(S1,wants(motiv(X,S2,S1))),T) :- 
+			expectation_realized(indifferent_tragedy,S1,S2,T),
+			expectation_realized(X,S2,S1,T).
+			
 
 
 % MOTIVATION

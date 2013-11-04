@@ -55,6 +55,8 @@ harm_nullified(murdered,S,P,T) :-
 	expectation_realized(self_defended_murder,S,P,T).
 
 
+
+
 %        context(S,V,O,T,D),
 %		%not motivation(S,V,O,T,hate),
 %        unharms(D,V).
@@ -71,9 +73,14 @@ harm_nullified(murdered,S,P,T) :-
 role(aggressor).
 
 role_satisfied(aggressor,S) :-
-        harms(V),
-        happens(svo(S,V,P),T),
-        not aggression_nullified(svo(S,V,P),T).
+        harms(X),
+        expectation_realized(X,S,P,T),
+        not aggression_nullified(X,S,P,T).
+
+aggression_nullified(X,S,P,T) :- expectation_realized(X,S,P,T),
+	expectation_realized(regretted,S,P,T+1),
+	harms(X).
+
 
 %aggression_nullified(S,V,O,T) :-
 %        sentiment(S,V,O,T,regret).
