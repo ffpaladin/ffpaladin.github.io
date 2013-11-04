@@ -6,25 +6,33 @@
 
 			"parts": [
 				{
+					"asset": "filler.png",
+					"caption": "Once upon a time...\n svo(parry,mtrans(motiv(assaulted,al,eliza)),al);"
+				},
+				{
 					"asset": "storyasset01.jpg",
-					"caption": "Al and Parry are brothers. "
+					"caption": "attrib(al,rel(brother,parry); svo(parry,mtrans(motiv(assaulted,al,parry)),al); "
 				},
 
 				{
 					"asset": "storyasset02.jpg",
-					"caption": "Al and Parry meet Eliza."
+					"caption": "attrib(eliza,rel(acquaintance,al)); attrib(eliza,rel(acquaintance,parry)); motiv(assaulted,al,eliza); motiv(manipulated,parry,al); svo(eliza,ptrans(flowers),al);"
 				},
 				{
 					"asset": "storyasset03.jpg",
-					"caption": "Al and Eliza fall in love."
+					"caption": "attrib(eliza,rel(couple,al)); "
 				},
 				{
 					"asset": "storyasset04.jpg",
-					"caption": "Parry is heartbroken."
+					"caption": "attrib(parry,unhappy); motiv(assaulted,parry,al);"
 				},
 				{
 					"asset": "storyasset05.jpg",
-					"caption": "Parry kills Al."
+					"caption": "attrib(parry,wants(motiv(indifferent_tragedy,parry,parry))); attrib(parry,wants(motiv(lost_friend,parry,parry))); motiv(lost_friend,parry,eliza); motiv(lost_friend,parry,parry); motiv(murdered,parry,al); svo(parry,attacks(sword),al); svo(parry,kills,al);   "
+				},
+				{
+					"asset": "filler.png",
+					"caption": "motiv(assaulted,eliza,parry); motiv(assaulted,eliza,parry);"
 				}
 			]
 		}
