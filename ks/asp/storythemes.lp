@@ -94,7 +94,7 @@ expectation_realized(indifferent_tragedy,S1,S2,T) :-
 			holds(attrib(S1,wants(motiv(X,S,S1))),T1),
 			T1 < T,
 		        harms(X),
-		        expectation_realized(X,S2,S1,T),
+		        expectation_realized(X,S2,S1,T).
 			happens(svo(S1,mtrans(indifferent_tragedy,S,S1),S1),T).
 
 % MOTIVATION

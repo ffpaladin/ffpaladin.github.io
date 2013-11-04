@@ -266,6 +266,10 @@ possible(svo(S1,mtrans(M),S2),T) :- not holds(attrib(S2,wants(M)),T),
 	not holds(attrib(S2,restrained),T).
 
 
+expectation_required(regretted, parry, al, 6).
+% A PERSON STIRS DESIRES
+%possible(svo(S,mtrans(M),S),T) :- not holds(attrib(S2,wants(M)),T).
+			
 
 %initiates(svo(S1,mtrans(M),S2),attrib(S2,wants(M)),T).
 
@@ -392,7 +396,7 @@ terminated(attrib(S,inactive),T-1) :- author_spec(svo(S,introduces,S),T).
 
 initiated(attrib(S,unhappy),T-1) :- author_spec(attrib(S,unhappy),T).
 
-presentation(atrib(S,A),T) :- author_spec(attrib(S,A),T).
+presentation(attrib(S,A),T) :- author_spec(attrib(S,A),T).
 presentation(svo(S,V,S1),T) :- author_spec(svo(S,V,S1),T).
 
 
