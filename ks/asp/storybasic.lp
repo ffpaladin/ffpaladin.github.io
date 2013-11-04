@@ -206,7 +206,7 @@ t(0..t_max).
 { has_trait(Tr,P) } :- trait(Tr).
 
 % dont abduce motivations
-{ initially(attrib(P,wants(M))) }.
+%{ initially(attrib(P,wants(M))) }.
 
 %{ sentiment(S,V,O,T,Fe):feeling(Fe) } 1 :- happens(S,V,O,T).
 %{ context(S,V,O,T,D) } :- contextualizes(D,V), happens(S,V,O,T).
@@ -261,12 +261,17 @@ possible(svo(S,idle,S),T).
 
 % Mental Transfers: MTRANS
 
-possible(svo(S1,mtrans(M),S2),T) :- not holds(attrib(S2,wants(M)),T),
+possible(svo(S1,mtrans(motiv(X,S,P)),S2),T) :- not holds(attrib(S2,wants(motiv(X,S,P))),T),
        	not holds(attrib(S1,restrained),T),
-	not holds(attrib(S2,restrained),T).
+	not holds(attrib(S2,restrained),T),
+	not holds(attrib(S,inactive),T),
+	not holds(attrib(P,inactive),T).
 
 
-expectation_required(regretted, parry, al, 6).
+initiates(svo(S1,mtrans(M),S2),attrib(S2,wants(M)),T).
+
+
+
 % A PERSON STIRS DESIRES
 %possible(svo(S,mtrans(M),S),T) :- not holds(attrib(S2,wants(M)),T).
 			
@@ -531,9 +536,10 @@ presentation(svo(S,V,S1),T) :- author_spec(svo(S,V,S1),T).
 
 #show presentation(_,T).
 %#show required_story(St).
-%#show expectation_realized(X,S1,S2,T).
+#show expectation_realized(X,S1,S2,T).
 #show happens(E,T).
 %#show forbidden_story(St).
+#show aggression_nullified(X,S,P,T).
 #show harm_nullified(_,_,_,_).
 %#show required_action(E).
 %#show on_stage(S,T).

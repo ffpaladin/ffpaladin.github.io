@@ -41,6 +41,8 @@ expectation_realized(murdered,S1,S2,T) :- happens(svo(S1,kills,S2),T).
 % knowing the properties of murdered. i did a T+1
 presentation(svo(S1,attacks(O),S2),T) :- expectation_realized(murdered,S1,S2,T),
 					 happens(svo(S1,attacks(O),S2),T-1).
+
+
 % A manipulates B, if A transfers X to B before T, B performs X at T.
 expectation_realized(manipulated,S1,S2,T) :- 
 			happens(svo(S1,mtrans(motiv(X,S2,S3)),S2),T1),
@@ -54,7 +56,7 @@ presentation(svo(S1,mtrans(motiv(X,S2,S3)),S2),T1) :-
 			happens(svo(S1,mtrans(motiv(X,S2,S3)),S2),T1),
 			T1 < T,
 			expectation_realized(manipulated,S1,S2,T).
-
+presentation(motiv(manipulated,S1,S2),T) :- expectation_realized(manipulated,S1,S2,T).
 
 expectation_realized(assaulted,S1,S2,T) :- happens(svo(S1,attacks(O),S2),T), S1 != S2.
 
@@ -82,8 +84,9 @@ expectation_realized(mourned,S,S2,T) :-
 			happens(svo(S1,kills,S2),T-1),
 			happens(svo(S,mtrans(motiv(mourned,S,S2)),S),T).
 expectation_realized(regretted,S1,S2,T) :-
-			expectation_realized(X,S1,S2,T-1),
+			expectation_realized(X,S1,S2,T1),
 			harms(X),
+			T1 < T,
 			happens(svo(S1,mtrans(motiv(regretted,S1,S2)),S1),T).
 expectation_realized(rejoiced,S1,S2,T) :-
 			expectation_realized(X,S1,S2,T-1),

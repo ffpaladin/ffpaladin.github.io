@@ -21,6 +21,11 @@ role_satisfied(victim,P) :-
         expectation_realized(X,S,P,T),
         not harm_nullified(X,S,P,T).
 
+presentation(motiv(X,S,P),T) :- role_satisfied(victim,P),
+	harms(X),
+	expectation_realized(X,S,P,T).
+
+
 % if you manipulate someone into doing something to yourself, you are nulled
 
 harm_nullified(X,S,P,T) :-
@@ -47,6 +52,7 @@ harm_nullified(X,S,P,T) :-
 	expectation_realized(X2,P,S,T2),
 	T2 < T,
 	harms(X2),
+	harms(X),
 	expectation_realized(X,S,P,T).
 	
 % if self defense
@@ -54,6 +60,20 @@ harm_nullified(X,S,P,T) :-
 harm_nullified(murdered,S,P,T) :- 
 	expectation_realized(self_defended_murder,S,P,T).
 
+% no harm if no mourning of death
+
+harm_nullified(lost_friend,S1,S2,T) :-
+	expectation_realized(lost_friend,S1,S2,T),
+	happens(svo(S1,kills,S3),T),
+	not holds(attrib(S2,rel(stranger,S3)),T),
+	not expectation_realized(mourned,S2,S3,T).
+
+harm_nullified(lost_friend,S1,S2,T) :-
+        expectation_realized(lost_friend,S1,S2,T),
+        happens(svo(S1,kills,S3),T),
+        not holds(attrib(S2,rel(stranger,S3)),T),
+        not expectation_realized(mourned,S2,S3,T),
+	expectation_realized(rejoiced,S2,S3,T).
 
 
 
@@ -77,11 +97,29 @@ role_satisfied(aggressor,S) :-
         expectation_realized(X,S,P,T),
         not aggression_nullified(X,S,P,T).
 
+presentation(motiv(X,S,P),T) :- role_satisfied(aggressor,S),
+	harms(X),
+	expectation_realized(X,S,P,T).
+
+% S regrests what they did to P
 aggression_nullified(X,S,P,T) :- expectation_realized(X,S,P,T),
-	expectation_realized(regretted,S,P,T+1),
+	expectation_realized(regretted,S,P,T1),
+	T1>T,
 	harms(X).
 
+required_expectation(regretted,parry,al,6).
 
+% manipulated
+aggression_nullified(X,S,P,T) :- expectation_realized(X,S,P,T),
+	expectation_realized(manipulated,S1,S,T),
+	harms(X),
+	happens(svo(S1,mtrans(X,S,P),S),T1),
+	T1<T.
+
+% person didn't care
+aggression_nullified(X,S,P,T) :- expectation_realized(X,S,P,T),
+	expectation_realized(indifferent_tragedy,S2,S1,T),
+	harms(X).
 %aggression_nullified(S,V,O,T) :-
 %        sentiment(S,V,O,T,regret).
 
