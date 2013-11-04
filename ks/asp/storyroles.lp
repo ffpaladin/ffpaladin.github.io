@@ -34,11 +34,8 @@ harm_nullified(X,S,P,T) :-
 
 % if you wanted it to happen
 
-harm_nullified(X,S,P,T) :- expectation_realized(indifferent_tragedy,P,S,T).
-%	holds(attrib(P,wants(motiv(X,S,P))),T1),
-%	T1 < T,
-%        harms(X),
-%	expectation_realized(X,S,P,T).
+harm_nullified(X,S,P,T) :- expectation_realized(indifferent_tragedy,P,S,T),
+			expectation_realized(X,S,P,T).
 
 
 % if payback

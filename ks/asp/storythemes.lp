@@ -70,12 +70,13 @@ expectation_realized(wooed,S1,S2,T) :-
 presentation(svo(S1,ptrans(O),S2),T-1) :- 
 			happens(svo(S1,ptrans(O),S2),T-1),
                         obj_is(O,gift).
-% lost friend
+
+% lost friend - S1 murders S3. S2 is the victim of loss
 
 expectation_realized(lost_friend,S1,S2,T) :-
-			happens(svo(S,kills,S2),T),
-			not holds(attrib(S1,rel(stranger,S2)),T),
-			S1 != S2.
+			happens(svo(S1,kills,S3),T),
+			not holds(attrib(S2,rel(stranger,S3)),T),
+			S2 != S3.
 	
 expectation_realized(mourned,S,S2,T) :-
 			happens(svo(S1,kills,S2),T-1),
@@ -96,6 +97,8 @@ expectation_realized(indifferent_tragedy,S1,S2,T) :-
 		        harms(X),
 		        expectation_realized(X,S2,S1,T).
 			happens(svo(S1,mtrans(indifferent_tragedy,S,S1),S1),T).
+
+
 
 % MOTIVATION
 
