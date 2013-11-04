@@ -19,22 +19,8 @@
 /*jshint bitwise:true, curly:true, eqeqeq:true, forin:true, latedef:true, newcap:true,
          noarg:true, noempty:true, undef:true, strict:true, browser:true */
 
-// You are one of those who like to know how thing work inside?
+// You are one of those who like to know how things work inside?
 // Let me show you the cogs that make impress.js run...
-var game = {
-  stepsTaken: [],
-  updateAfterStep: function(stepId){
-    if (this.stepsTaken.length < 1 || stepId !== this.stepsTaken[this.stepsTaken.length-1]){
-      this.stepsTaken.push(stepId);           
-      var numberOfSteps = this.stepsTaken.length;
-      var stepsElement = document.getElementById("steps");
-      var newStep = document.createElement("li");
-      newStep.innerHTML = "" + numberOfSteps +": <a href=#"+stepId+">"+stepId+"</a>";
-      var mostRecentStep = stepsElement.firstChild;
-      stepsElement.insertBefore(newStep, mostRecentStep);
-    };
-  }
-};
 (function ( document, window ) {
     'use strict';
     
@@ -426,9 +412,6 @@ var game = {
             } else if (typeof step === "string") {
                 step = byId(step);
             }
-            if (!!step.id === true){
-              game.updateAfterStep(step.id); 
-            };
             return (step && step.id && stepsData["impress-" + step.id]) ? step : null;
         };
         
@@ -568,7 +551,11 @@ var game = {
         // `prev` API function goes to previous step (in document order)
         var prev = function () {
             var prev = steps.indexOf( activeStep ) - 1;
-            prev = prev >= 0 ? steps[ prev ] : steps[ steps.length-1 ];
+            if(prev >= 0)
+                prev = steps[prev];
+            else
+                prev = stesps[0];
+            //prev = prev >= 0 ? steps[ prev ] : steps[ steps.length-1 ];
             
             return goto(prev);
         };
@@ -576,7 +563,11 @@ var game = {
         // `next` API function goes to next step (in document order)
         var next = function () {
             var next = steps.indexOf( activeStep ) + 1;
-            next = next < steps.length ? steps[ next ] : steps[ 0 ];
+            if(next < steps.length)
+                next = steps[next];
+            else
+                next = steps[steps.length-1]
+            //next = next < steps.length ? steps[ next ] : steps[ 0 ];
             
             return goto(next);
         };
@@ -801,7 +792,7 @@ var game = {
         // rescale presentation when window is resized
         window.addEventListener("resize", throttle(function () {
             // force going to active step again, to trigger rescaling
-            api.goto( document.querySelector(".active"), 500 );
+            api.goto( document.querySelector(".step.active"), 500 );
         }, 250), false);
         
     }, false);
@@ -815,4 +806,3 @@ var game = {
 //
 // I've learnt a lot when building impress.js and I hope this code and comments
 // will help somebody learn at least some part of it.
-

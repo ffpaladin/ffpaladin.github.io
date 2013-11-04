@@ -17,12 +17,12 @@ body{
     margin: 0px;
 
   background: #ffffff; /* Old browsers */
-background: -moz-linear-gradient(top, #ffffff 0%, #b5a7d1 70%); /* FF3.6+ */
-background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(70%,#b5a7d1)); /* Chrome,Safari4+ */
-background: -webkit-linear-gradient(top, #ffffff 0%,#b5a7d1 70%); /* Chrome10+,Safari5.1+ */
-background: -o-linear-gradient(top, #ffffff 0%,#b5a7d1 70%); /* Opera 11.10+ */
-background: -ms-linear-gradient(top, #ffffff 0%,#b5a7d1 70%); /* IE10+ */
-background: linear-gradient(to bottom, #ffffff 0%,#b5a7d1 70%); /* W3C */
+    background: -moz-linear-gradient(top, #ffffff 0%, #b5a7d1 70%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(70%,#b5a7d1)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top, #ffffff 0%,#b5a7d1 70%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top, #ffffff 0%,#b5a7d1 70%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top, #ffffff 0%,#b5a7d1 70%); /* IE10+ */
+    background: linear-gradient(to bottom, #ffffff 0%,#b5a7d1 70%); /* W3C */
 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#b5a7d1',GradientType=0 ); /* IE6-9 */
 }
 h1{
@@ -38,7 +38,7 @@ h1{
     float:left;
 }
 .frame-content{
-    width:800px;
+    width:600px;
     padding: 15px;
     border-radius: 15px;
     background-color: #ceff96;
@@ -54,13 +54,33 @@ h1{
     width: 95%;
     height: auto;
 }
-.left{
+#left{
 	position: fixed; left:0px; top:50%;
 	background-image:url('../images/misc/arrow.png');
 	width:49px; height:99px;
 }
-.right{
+#right{
 	position: fixed; right:0px; top:50%;
 	background-image:url('../images/misc/arrow-flipped.png') ;
 	width:49px; height:99px;
 }
+
+/*impress.js stuff*/
+
+.slide{
+    color:black;
+}
+
+
+.impress-enabled .step {
+    margin: 0;
+    opacity: 0.1;
+
+    -webkit-transition: opacity 1s;
+    -moz-transition:    opacity 1s;
+    -ms-transition:     opacity 1s;
+    -o-transition:      opacity 1s;
+    transition:         opacity 1s;
+}
+
+.impress-enabled .step.active { opacity: 1 }
