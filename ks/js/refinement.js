@@ -6,7 +6,7 @@ function svo(s, v, o){
      return(s + " " + v + " " + o + ". ");
 }
  
-function atrib(s, attribute){
+function attrib(s, attribute){
       return(s +  " is " + attribute + ".");
 }
 
