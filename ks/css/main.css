@@ -55,12 +55,12 @@ h1{
     height: auto;
 }
 #left{
-	position: fixed; left:0px; top:50%;
+	position: fixed; left:0px; top:90%;
 	background-image:url('../images/misc/arrow.png');
 	width:49px; height:99px;
 }
 #right{
-	position: fixed; right:0px; top:50%;
+	position: fixed; right:0px; top:90%;
 	background-image:url('../images/misc/arrow-flipped.png') ;
 	width:49px; height:99px;
 }
@@ -74,7 +74,7 @@ h1{
 
 .impress-enabled .step {
     margin: 0;
-    opacity: 0.1;
+    opacity: 0.3;
 
     -webkit-transition: opacity 1s;
     -moz-transition:    opacity 1s;

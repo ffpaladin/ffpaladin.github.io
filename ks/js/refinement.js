@@ -11,9 +11,13 @@ function attrib(s, attribute){
 }
 
 function rel(relationship, person){
-     return(.....);
+     return ("is the " + relationship " of " + person)
 }
 
 function motiv(act, actor, recipient){
-      return ...
+      return ("is motivated by " + actor + " " + act + " " + recipient);
+}
+
+function ptrans(object){
+	return object;
 }
