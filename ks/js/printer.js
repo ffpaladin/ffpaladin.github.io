@@ -36,3 +36,20 @@ function printStoryImpress (story, domElement){
 		$(domElement).append('<div class="step" data-x="'+offset+'"><div class="frame-content"><iframe width="100%" height="600" src="https://docs.google.com/forms/d/1bawAfxVi-oN4ytm2WbYripX0uClvj7iXyXkNCSIs-F8/viewform">Your browser does not support iframes, so you cannot view the feedback form.</iframe><br>Feedback form.</div>');
 	}
 }
+
+function printCaptionsImpress (captions, domElement){
+	var i, offset;
+	for(i = 0; i < captions.length; i++){
+		offset = i*1024;
+		console.log("offset" + offset);
+		var htmlToAppend = '<div class="step" data-x="'+offset+' " data-y="0">';
+		htmlToAppend += '<div class="frame-content">';
+		//htmlToAppend += '<img class="frame-image" src="images/comics/' + "storyasset01.jpg" + '"/><br/>';
+		htmlToAppend += captions[i] + "</div></div>;"
+		console.log(htmlToAppend)
+		$(domElement).append(htmlToAppend);
+	}
+	offset = i*1024;
+	console.log(offset);
+	$(domElement).append('<div class="step" data-x="'+offset+'"><div class="frame-content"><iframe width="100%" height="600" src="https://docs.google.com/forms/d/1bawAfxVi-oN4ytm2WbYripX0uClvj7iXyXkNCSIs-F8/viewform">Your browser does not support iframes, so you cannot view the feedback form.</iframe><br>Feedback form.</div>');
+}

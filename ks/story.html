@@ -17,24 +17,27 @@
 <script src="js/impress.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 <script src="js/data-wrangler.js"></script>
-	<script src="js/printer.js"></script>
+<script src="js/printer.js"></script>
+<script src="js/refinement.js"></script>
+<script src="js/kaleidoscope-vis.js"></script>
 	<script>
+        ksVis.loadStory();
         var url = "data/story01.json";
         var story;
-        console.log("here");
-        $(document).ready(function(){
+        //console.log("here");
+       /* $(document).ready(function(){
             $.getJSON(url, function(data){
             //alert("done");
-            console.log("here3"); 
+          //  console.log("here3"); 
             printStoryImpress(data.stories, "#impress");
             impress().init();
             }).fail(function(data){
                // console.log(error.responseText);
                 //alert("fail");
             }).always(function(data){
-                console.log(data);
+            //    console.log(data);
                 story = data.responseText;
             });
-        });
-        console.log("here2");
+        });*/
+        //console.log("here2");
 	</script>  
