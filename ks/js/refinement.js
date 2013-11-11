@@ -1,43 +1,43 @@
 var al = "Al";
 var parry = "Parry";
 var eliza = "Eliza";
-var couple = "significant other";
-var acquaintance = "acquaintance";
+var couple = "fell in love and became a couple";
+var acquaintance = "became acquaintances";
 var apple = "apple";
 var wooed = "wooed";
 var unhappy = "unhappy"
 var indifferent_tragedy = "does not care what happened to";
-var lost_friend = "lost friend";
+var lost_friend = "lose their friend";
 var murdered = "murdered";
 var kills = "kills";
 var flowers = "flowers";
-var brother = "brother";
+var brother = "became brothers";
 var assaulted = "assaulted";
 var sword = "sword";
 
 var captions = new Array();
 
-function presentation(s,  n){
-	if(captions[n] == undefined)
-		captions[n] = s + ". ";
+function presentation(sentence, index){
+	if(captions[index] == undefined)
+		captions[index] = sentence + ". ";
 	else
-      captions[n] += s + ". ";
+      captions[index] += sentence + ". ";
 }
 
 function svo(s, v, o){
      return(s + " " + v + " " + o);
 }
  
-function attrib(s, attribute){
-      return(s +  " became " + attribute);
+function attrib(subject, attribute){
+      return(subject +  " " + attribute);
 }
 
 function rel(relationship, person){
-     return ("became the " + relationship + " of " + person);
+     return ("and " + person + " " + relationship);
 }
 
 function motiv(act, actor, recipient){
-      return (actor + " " + act + " " + recipient);
+      return (actor + " is motivated by " + recipient +  " to " + act);
 }
 
 function attacks(weapon){
@@ -49,5 +49,5 @@ function ptrans(object){
 }
 
 function wants(object){
-	return ("desired to " + object);
+	return ("desired to have " + object);
 }

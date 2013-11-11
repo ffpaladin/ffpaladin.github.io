@@ -1,7 +1,7 @@
 var ksVis = function(){};
 
 ksVis.loadStory = function(){
-	var targetUrl = "asp/exports/13.11.03_21.04.54.txt";
+	var targetUrl = "asp/exports/13.11.03_21.35.30.txt";
     console.log("here");
     $.ajax({
     	url: targetUrl,
