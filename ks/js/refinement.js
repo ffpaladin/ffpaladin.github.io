@@ -18,10 +18,13 @@ var sword = "sword";
 var captions = new Array();
 
 function presentation(sentence, index){
-	if(captions[index] == undefined)
-		captions[index] = sentence + ". ";
+	if(captions[index] == undefined){
+		captions[index] = new Array();
+		captions[index].text = sentence + ". ";
+	}
 	else
-      captions[index] += sentence + ". ";
+      captions[index].text += sentence + ". ";
+  	return index;
 }
 
 function svo(s, v, o){

@@ -757,6 +757,7 @@
         
         // delegated handler for clicking on step elements
         document.addEventListener("click", function ( event ) {
+            return;
             var target = event.target;
             // find closest step element that is not active
             while ( !(target.classList.contains("step") && !target.classList.contains("active")) &&
@@ -778,9 +779,9 @@
                     result = null;
                     
                 if ( x < width ) {
-                    result = api.prev();
+                    //result = api.prev();
                 } else if ( x > window.innerWidth - width ) {
-                    result = api.next();
+                    //result = api.next();
                 }
                 
                 if (result) {

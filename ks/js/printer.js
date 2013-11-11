@@ -38,18 +38,40 @@ function printStoryImpress (story, domElement){
 }
 
 function printCaptionsImpress (captions, domElement){
-	var i, offset;
+	var i;
+	var offset = 0;
+
+	//add filler
+	var htmlToAppend = '<div class="step" data-x="'+offset+' " data-y="0">';
+	htmlToAppend += '<div class="frame-content">';
+	htmlToAppend += '<img class="frame-image" src="images/comics/filler.png"/><br/>';
+	htmlToAppend += "</div></div>;"
+	$(domElement).append(htmlToAppend);
+
 	for(i = 0; i < captions.length; i++){
-		offset = i*1024;
-		console.log("offset" + offset);
-		var htmlToAppend = '<div class="step" data-x="'+offset+' " data-y="0">';
-		htmlToAppend += '<div class="frame-content">';
-		//htmlToAppend += '<img class="frame-image" src="images/comics/' + "storyasset01.jpg" + '"/><br/>';
-		htmlToAppend += captions[i] + "</div></div>;"
-		console.log(htmlToAppend)
-		$(domElement).append(htmlToAppend);
+		var caption = captions[i]
+		if(caption != "null"){
+			offset += 1024;
+			console.log("offset" + offset);
+			var htmlToAppend = '<div class="step" data-x="'+offset+' " data-y="0">';
+			htmlToAppend += '<div class="frame-content">';
+			htmlToAppend += '<div class="code">' + caption.code + "<br/></div>";
+			if(i<=5)
+				htmlToAppend += '<img class="frame-image" src="images/comics/' + "storyasset0" + i + ".jpg" + '"/><br/>';
+			else
+				htmlToAppend += '<img class="frame-image" src="images/comics/' + "storyasset0" + 5 + ".jpg" + '"/><br/>';
+			htmlToAppend += caption.text + "</div></div>;"
+			console.log(htmlToAppend)
+			$(domElement).append(htmlToAppend);
+		}
 	}
-	offset = i*1024;
-	console.log(offset);
+	offset += 1024;
+	//add filler
+	var htmlToAppend = '<div class="step" data-x="'+offset+' " data-y="0">';
+	htmlToAppend += '<div class="frame-content">';
+	htmlToAppend += '<img class="frame-image" src="images/comics/filler.png"/><br/>';
+	htmlToAppend += "</div></div>;"
+	$(domElement).append(htmlToAppend);
+	offset += 1024;
 	$(domElement).append('<div class="step" data-x="'+offset+'"><div class="frame-content"><iframe width="100%" height="600" src="https://docs.google.com/forms/d/1bawAfxVi-oN4ytm2WbYripX0uClvj7iXyXkNCSIs-F8/viewform">Your browser does not support iframes, so you cannot view the feedback form.</iframe><br>Feedback form.</div>');
 }

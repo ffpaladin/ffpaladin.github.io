@@ -8,10 +8,24 @@ ksVis.loadStory = function(){
     	success: function(data){
 			console.log("Asp: " + data);
 			captions = new Array();
-			eval(data);
-			captions[0] = "dsklfjdsldk";
+			//eval(data);
+            var lines = data.split("\n");
+            for(var i = 0; i < lines.length;i++){
+                var index = eval(lines[i]);
+                if(captions[index] == undefined){
+                    captions[index] = new Array();
+                    captions[index].code = lines[i] + "<br/>";
+                }
+                else if(captions[index].code == undefined){
+                    captions[index].code = lines[i] + "<br/>";
+                }
+                else{
+                    captions[index].code += lines[i] + "<br/>";
+                }
+            }
+			captions[0] = "null";
 			printCaptionsImpress(captions, "#impress");
-			//impress().init();
+			impress().init();
 		    console.log(captions);
     	},
     	fail: function(data){
