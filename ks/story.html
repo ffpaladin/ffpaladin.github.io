@@ -7,20 +7,22 @@
     </head>
     <body>
         <title>Tell Me A Story.</title>
-        <!--<div id="left" onclick="impress().prev()"></div>-->
-        <!--<div id="right" onclick="impress().next()"></div>-->
         <div id="logo"><img src="images/logo.png"/></div>
         <div id="impress">
         </div>
+        <div id="left" onclick="impress().prev()"></div>
+        <div id="right" onclick="impress().next()"></div>
     </body>
 </html>
 <script src="js/impress.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 <script src="js/data-wrangler.js"></script>
 <script src="js/printer.js"></script>
+<script src="js/conjugator.js"></script>
 <script src="js/refinement.js"></script>
 <script src="js/kaleidoscope-vis.js"></script>
 	<script>
+       // alert(conjugate("fight", "present", 3, false));
         ksVis.loadStory();
         var url = "data/story01.json";
         var story;

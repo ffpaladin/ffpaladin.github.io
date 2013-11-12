@@ -33,6 +33,12 @@ h1{
     position: absolute;
     /*width is set by js*/
 }
+
+.code{
+    font-family: monospace;
+    font-size: 12px;
+}
+
 .frame{
     /*width is set by js*/
     float:left;
@@ -55,14 +61,16 @@ h1{
     height: auto;
 }
 #left{
-	position: fixed; left:0px; top:90%;
+	position: fixed; left:0px; top:50%;
 	background-image:url('../images/misc/arrow.png');
 	width:49px; height:99px;
+    cursor: pointer;
 }
 #right{
-	position: fixed; right:0px; top:90%;
+	position: fixed; right:0px; top:50%;
 	background-image:url('../images/misc/arrow-flipped.png') ;
 	width:49px; height:99px;
+    cursor: pointer;
 }
 
 /*impress.js stuff*/
@@ -70,7 +78,6 @@ h1{
 .slide{
     color:black;
 }
-
 
 .impress-enabled .step {
     margin: 0;
