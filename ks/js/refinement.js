@@ -40,7 +40,7 @@ function rel(relationship, person){
 }
 
 function motiv(act, actor, recipient){
-      return (actor + " is motivated by " + recipient +  " to " + act);
+      return (actor + " " + act + " " + recipient + ".");
 }
 
 function attacks(weapon){
