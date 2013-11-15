@@ -53,7 +53,10 @@ function svo(s, v, o){
 }
  
 function attrib(subject, attribute){
-      return(subject.name +  " is " + attribute);
+	if (typeof attribute === 'object')
+      		return(subject.name +  " is " + attribute);
+      	else
+      		return(subject.name + " " + attribute);
 }
 
 function rel(relationship, person){
