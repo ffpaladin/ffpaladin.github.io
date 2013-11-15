@@ -1,6 +1,27 @@
-var al = "Al";
-var parry = "Parry";
-var eliza = "Eliza";
+var al = {
+	name: "Al",
+	self: "himself",
+	pronoun: "he",
+	posessive: "his",
+	object: "him"
+	};
+	
+var parry = {
+	name: "Parry",
+	self: "himself",
+	pronoun: "He",
+	posessive: "his",
+	object: "him"
+	};
+	
+var eliza = {
+	name: "Eliza",
+	self: "herself",
+	pronoun: "She",
+	posessive: "her",
+	object: "her"
+	};
+	
 var couple = "fell in love and became a couple";
 var acquaintance = "became acquaintances";
 var apple = "apple";
@@ -28,19 +49,19 @@ function presentation(sentence, index){
 }
 
 function svo(s, v, o){
-     return(s + " " + v + " " + o);
+     return(s.name + " " + v + " " + o.name);
 }
  
 function attrib(subject, attribute){
-      return(subject +  " " + attribute);
+      return(subject.name +  " is " + attribute);
 }
 
 function rel(relationship, person){
-     return ("and " + person + " " + relationship);
+     return ("and " + person.name + " " + relationship);
 }
 
 function motiv(act, actor, recipient){
-      return (actor + " " + act + " " + recipient + ".");
+      return (actor.name + " " + act + " " + recipient.name);
 }
 
 function attacks(weapon){
