@@ -2,15 +2,16 @@ var ksVis = function(){};
 
 ksVis.files = [] ;
 
-ksVis.loadStory = function(){
+ksVis.loadStory = function(index){
     console.log("here");
        $.ajax({
 	 url: "asp/exports/bundle.dat",
 	 success: function(data){
 		console.log(data);
 		this.files = data.split("\n");	 
-		console.log(this.files); 
-		var targetUrl = "asp/exports/" + this.files[0] ; 
+		this.files.pop();			// remove last blank line
+		console.log(index%(this.files.length)); 
+		var targetUrl = "asp/exports/" + this.files[index%(this.files.length)] ; 
 
 		console.log(targetUrl) ;
 
