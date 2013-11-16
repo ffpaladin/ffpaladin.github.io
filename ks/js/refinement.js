@@ -21,7 +21,8 @@ var eliza = {
 	posessive: "her",
 	object: "her"
 	};
-	
+
+var manipulated = "maipulate";
 var couple = "fell in love and became a couple";
 var acquaintance = "became acquaintances";
 var apple = "apples";
@@ -39,37 +40,38 @@ var sword = "sword";
 var captions = new Array();
 
 // transitions per page
-var capstrans = new Array();
+var trans = new Array();
 
-capstrans[0] = "Once upon a time...";
-capstrans[1] = "It was the case that ";
-capstrans[2] = "One day, ";
-capstrans[3] = "Then, ";
-capstrans[4] = "For whatever reason, ";
-capstrans[5] = "It seemed that ";
-capstrans[6] = "As a result, ";
-capstrans[7] = "In the end, ";
+trans[0] = "Once upon a time...";
+trans[1] = "It was the case that ";
+trans[2] = "One day, ";
+trans[3] = "Then, ";
+trans[4] = "For whatever reason, ";
+trans[5] = "It seemed that ";
+trans[6] = "As a result, ";
+trans[7] = "In the end, ";
 
 // Mo Objects less Strings
 
-function Sentence(object)
-{
-	this.getStr = function (){
-		return object;
-	}
-}
+function presentation(s, index){
+	
+	var c = captions[index];
 
-function presentation(sentence, index){
-	
-	var s = new Sentence(sentence);
-	
-	if(captions[index] == undefined){
-		captions[index] = new Array();
-		captions[index].text = capstrans[index] + s.getStr() + ". ";
+	if(c == undefined){
+		c = captions[index] = new Array();
+		c.text = trans[index] + s + ". ";
 	}
-	else
-      captions[index].text += s.getStr() + ". ";
-  	return index;
+	// if the subj is repeated, the replace with pronoun
+	else if (c[c.length-1].subj === s.subj){
+		c.text += (s.str.replace(s.subj.name,s.subj.pronoun) + ". ");		
+	}
+	else{
+		c.text += s + ". ";
+	}
+	
+	c.push(s);
+
+	return index;
 }
 
 
@@ -84,10 +86,18 @@ function setstr(o,s)
 // TOP LEVEL SENTENCES MODIFIERS: svo, attib, and motiv
 
 function svo(s, v, o){
-     return setstr({},s.name + " " + v + " " + o.name);
+	var x = {subj:s};
+
+     	if (v.type !== "attacks")
+     		return setstr(x,s.name + " " + v + " " + o.name);
+	else
+                return setstr(x,s.name + " " + v.type + " " + o.name + " with a " + v.w);
+		
 }
  
 function attrib(subject, attribute){
+	
+	var x = {subj:subject};
 
 	if (typeof attribute !== 'string')
 	{	
@@ -95,40 +105,40 @@ function attrib(subject, attribute){
 		// if attribute is a relationship
 		if (attribute.type === "rel") 
 			if (attribute.p === subject)	// someone in a relationship with themself
-				return setstr({}, subject.name +
+				return setstr(x, subject.name +
 				" and " + subject.obj + " " + attribute.rel);
 			else
-				return setstr({},subject.name + " " + attribute);
+				return setstr(x,subject.name + " " + attribute);
 		
 		
 		// else it is a held motivation
 		else if (attribute.type === "motiv")
 			if (attribute.r === subject)   // someone does something to themself
-				return setstr({},subject.name + " " + attribute.r.obj);
+				return setstr(x,subject.name + " " + attribute.r.obj);
 			else
-				return setstr({},subject.name + " " + attribute);
+				return setstr(x,subject.name + " " + attribute);
 
 		// else it is a want
 		else if (attribute.type === "wants")
 			if (attribute.motive.r === subject) // someone wants something on themself
-				 return setstr({},subject.name + " wanted " + attribute.motive.p.name + " to " +
+				 return setstr(x,subject.name + " wanted " + attribute.motive.p.name + " to " +
 				 			attribute.motive.a + " " + attribute.motive.r.object);
                         else
-       		                 return setstr({},subject.name + " " + attribute);
+       		                 return setstr(x,subject.name + " " + attribute);
 
 
       	}
 	else
       	{
 		// attribute is just a single word
-		return setstr({},subject.name + " was " + attribute);
+		return setstr(x,subject.name + " was " + attribute);
 	}
 }
 
 
 function motiv(act, actor, recipient){
       	
-	var obj = { 
+	var obj = {	subj:actor, 
 			p: actor,
 			a: act,
 			r: recipient,
@@ -136,8 +146,10 @@ function motiv(act, actor, recipient){
 
       	if(actor === recipient)
 		return setstr(obj,actor.name + " " + act + " " + actor.myself);
-	else if (act.indexOf(" ") != -1)
+
+	else if (act.indexOf(" ") != -1) // dont add the 'ed' if its not a verb
       		return setstr(obj,actor.name + " " + act + " " + recipient.name);
+	
 	else
       		return setstr(obj,actor.name + " " + act + "ed " + recipient.name);
 }
@@ -154,11 +166,11 @@ function rel(relationship, person){
 
 function attacks(weapon){
 	var obj = {
-		type: attacks,
+		type: "attacks",
 		w: weapon,
 	};
 
-	return setstr(obj, "attacked with a " + weapon);
+	return setstr(obj, "attacked with a " + weapon + " at");
 }
 
 function ptrans(object){
@@ -169,6 +181,16 @@ function ptrans(object){
 
 	return obj;
 }
+
+function mtrans(object){
+	var obj = {o: object,
+		type: "mtrans"};
+
+	setstr(obj,"told " + object + " to");
+
+	return obj;
+}
+
 
 function wants(object){
 	

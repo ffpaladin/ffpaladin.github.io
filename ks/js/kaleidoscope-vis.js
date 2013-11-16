@@ -1,7 +1,13 @@
 var ksVis = function(){};
 
+var files = [
+	"13.11.04_00.09.55.txt",
+	"13.11.03_21.35.30.txt",
+	"13.11.03_23.49.43.txt"
+] ;
+
 ksVis.loadStory = function(){
-	var targetUrl = "asp/exports/13.11.03_21.35.30.txt";
+	var targetUrl = "asp/exports/" + files[2] ; //13.11.03_21.35.30.txt";
     console.log("here");
     $.ajax({
     	url: targetUrl,
@@ -23,7 +29,7 @@ ksVis.loadStory = function(){
                     captions[index].code += lines[i] + "<br/>";
                 }
             }
-			captions[0] = "null";
+			//captions[0] = "null";
 			printCaptionsImpress(captions, "#impress");
 			impress().init();
 		    console.log(captions);

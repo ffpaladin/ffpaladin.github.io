@@ -49,7 +49,7 @@ function printCaptionsImpress (captions, domElement){
 	$(domElement).append(htmlToAppend);
 
 	for(i = 0; i < captions.length; i++){
-		var caption = captions[i]
+		var caption = captions[i];
 		if(caption != "null"){
 			offset += 1024;
 			console.log("offset" + offset);
