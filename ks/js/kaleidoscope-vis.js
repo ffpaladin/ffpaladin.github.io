@@ -10,7 +10,7 @@ ksVis.loadStory = function(){
 		console.log(data);
 		this.files = data.split("\n");	 
 		console.log(this.files); 
-		var targetUrl = "asp/exports/" + this.files[this.files.length-2] ; 
+		var targetUrl = "asp/exports/" + this.files[0] ; 
 
 		console.log(targetUrl) ;
 
@@ -23,10 +23,7 @@ ksVis.loadStory = function(){
 				console.log("THE DATA: "+data);
 				ksVis.setStory(data) ;
 			},
-
-		 //this.setStory,
-
-			  fail: function(data){
+			fail: function(data){
     				alert("Error: Unable to retrieve story from server.");
     			  }	
     		});
@@ -46,7 +43,6 @@ ksVis.setStory =  function(data){
 			captions = new Array();
 			//eval(data);
             var lines = data.split("\n");
-
             for(var i = 0; i < lines.length;i++){
                 var index = eval(lines[i]);
                 if(captions[index] == undefined){
@@ -60,7 +56,7 @@ ksVis.setStory =  function(data){
                     captions[index].code += lines[i] + "<br/>";
                 }
             }
-			//captions[0] = "null";
+					
 			printCaptionsImpress(captions, "#impress");
 			impress().init();
 		    console.log(captions);
