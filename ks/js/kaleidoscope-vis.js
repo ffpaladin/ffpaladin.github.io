@@ -1,21 +1,52 @@
 var ksVis = function(){};
 
-var files = [
-	"13.11.04_00.09.55.txt",
-	"13.11.03_21.35.30.txt",
-	"13.11.03_23.49.43.txt"
-] ;
+ksVis.files = [] ;
 
 ksVis.loadStory = function(){
-	var targetUrl = "asp/exports/" + files[0] ; //13.11.03_21.35.30.txt";
     console.log("here");
-    $.ajax({
-    	url: targetUrl,
-    	success: function(data){
+       $.ajax({
+	 url: "asp/exports/bundle.dat",
+	 success: function(data){
+		console.log(data);
+		this.files = data.split("\n");	 
+		console.log(this.files); 
+		var targetUrl = "asp/exports/" + this.files[this.files.length-2] ; 
+
+		console.log(targetUrl) ;
+
+		// original load call
+		$.ajax({
+    			
+			url: targetUrl,
+			success: function(data) {
+				
+				console.log("THE DATA: "+data);
+				ksVis.setStory(data) ;
+			},
+
+		 //this.setStory,
+
+			  fail: function(data){
+    				alert("Error: Unable to retrieve story from server.");
+    			  }	
+    		});
+
+	 },
+
+ 	 fail: function(data){
+		 alert("MalFunCtioN!");
+	 	}
+	 });
+         
+
+}
+
+ksVis.setStory =  function(data){
 			console.log("Asp: " + data);
 			captions = new Array();
 			//eval(data);
             var lines = data.split("\n");
+
             for(var i = 0; i < lines.length;i++){
                 var index = eval(lines[i]);
                 if(captions[index] == undefined){
@@ -33,10 +64,6 @@ ksVis.loadStory = function(){
 			printCaptionsImpress(captions, "#impress");
 			impress().init();
 		    console.log(captions);
-    	},
-    	fail: function(data){
-    		alert("Error: Unable to retrieve story from server.");
-    	},
-    });
-
 }
+
+

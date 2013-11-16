@@ -6,3 +6,5 @@ grep presentation answerset.txt | sed 's/\(.*\)\([0-9]\)\(.*\)/\1 \2 \3;/' | sor
 
 cat answerset.txt > $name.ans
 cat storyspec.txt > $name.spec
+
+./bundle.sh
