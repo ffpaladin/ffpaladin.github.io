@@ -6,7 +6,9 @@
         <div style="margin:auto;width:800px;">		
 			<div  style="margin:auto" class="frame">
                 <div style="text-align:center" class="frame-content">
-                   <a href="story.html">Tell me a story.
+
+
+                   <a id="story" href="story.html">Tell me a story.
                    	<img src="images/storyasset00.jpg">
                    </a>
                 </div>
@@ -14,3 +16,15 @@
             </div>	
     </body>
 </html>
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script>
+   $(function (){
+
+
+    var n = Math.floor(Math.random()*32767);
+    $("#story").attr("href","story.html?"+n);
+
+   }); 
+</script>

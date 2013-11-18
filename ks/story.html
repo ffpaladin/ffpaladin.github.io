@@ -23,7 +23,19 @@
 <script src="js/kaleidoscope-vis.js"></script>
 	<script>
        // alert(conjugate("fight", "present", 3, false));
-        ksVis.loadStory(Math.floor(Math.random()*32767));
+        
+        var pathname = window.location.href;
+        var param = pathname.split(/[?#]/);
+
+        console.log(param);
+
+        if (param.length > 1)
+        {
+            console.log("loading story id #" + param[1]);
+            ksVis.loadStory(Math.floor(param[1]));
+        }
+        else
+            ksVis.loadStory(Math.floor(Math.random()*32767));
         //var url = "data/story01.json";
         // var story;
         //console.log("here");
