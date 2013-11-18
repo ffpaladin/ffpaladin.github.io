@@ -22,19 +22,37 @@ var eliza = {
 	object: "her"
 	};
 
-var manipulated = "maipulate";
+var manipulated = {
+	present: "maipulate",
+	past: "manipulated"};
+
 var couple = "fell in love and became a couple";
 var acquaintance = "became acquaintances";
 var apple = "apples";
 var wooed = "wooed";
-var unhappy = "unhappy"
-var indifferent_tragedy = "does not care what happened to";
-var lost_friend = "caused a great loss for";
-var murdered = "murder";
+var unhappy = "unhappy";
+
+var indifferent_tragedy = {
+	present: "not care what happened to",
+	past: "did not care what happened to"};
+
+var lost_friend = {
+	past: "caused this great loss for",
+	present: "cause this great loss for",
+	};
+
+
+var murdered = {
+	present: "murder",
+	past: "murdered"};
+
 var kills = "kills";
 var flowers = "flowers";
 var brother = "are brothers";
-var assaulted = "assault";
+var assaulted = {
+	present: "pick a fight with",
+	past: "picked a fight with"};
+
 var sword = "sword";
 
 var captions = new Array();
@@ -50,6 +68,7 @@ trans[4] = "For whatever reason, ";
 trans[5] = "It seemed that ";
 trans[6] = "As a result, ";
 trans[7] = "In the end, ";
+trans[8] = "";
 
 // Mo Objects less Strings
 
@@ -87,17 +106,35 @@ function setstr(o,s)
 
 function svo(s, v, o){
 	var x = {subj:s};
+	var sent;
 
-     	if (v.type !== "attacks")
-     		return setstr(x,s.name + " " + v + " " + o.name);
-	else
-                return setstr(x,s.name + " " + v.type + " " + o.name + " with a " + v.w);
+	switch (v.type)
+	{
+	case "attacks":
+       		return setstr(x,s.name + " " + v.type + " " + o.name + " with a " + v.w);
+	case "mtrans":
+		if (o === v.o.p)	// if you convince someone to do something themself
+			sent = s.name + " convinced " + o.name + " to " + v.o.a.present + " ";
+		else
+			sent = s.name + " convinced " + o.name + " to " + v.o;
 		
+		
+		if (s === v.o.r)	// if you convince someone to do something to you
+			sent += v.o.r.object;
+		else
+			sent += v.o.r.name;
+
+		return setstr(x,sent);
+	default:	
+		return setstr(x,s.name + " " + v + " " + o.name);
+	}
 }
  
 function attrib(subject, attribute){
 	
 	var x = {subj:subject};
+	
+	var sent;
 
 	if (typeof attribute !== 'string')
 	{	
@@ -119,13 +156,21 @@ function attrib(subject, attribute){
 				return setstr(x,subject.name + " " + attribute);
 
 		// else it is a want
-		else if (attribute.type === "wants")
+		else if (attribute.type === "wants") {
+			sent = subject.name + " " + attribute;
+			
 			if (attribute.motive.r === subject) // someone wants something on themself
-				 return setstr(x,subject.name + " wanted " + attribute.motive.p.name + " to " +
-				 			attribute.motive.a + " " + attribute.motive.r.object);
-                        else
-       		                 return setstr(x,subject.name + " " + attribute);
-
+				 sent = subject.name + " wanted " + attribute.motive.p.name + " to " +
+				 			attribute.motive.a.present + " " + attribute.motive.r.object;
+                        if (attribute.motive.p === subject)
+			{
+				var re = RegExp(subject.name,"g");
+        			sent = subject.name + sent.replace(re,"");
+				sent = sent.replace(subject.object,subject.myself);	
+			}
+       		        
+			return setstr(x,sent);
+		}
 
       	}
 	else
@@ -144,14 +189,12 @@ function motiv(act, actor, recipient){
 			r: recipient,
 			type: "motiv"};
 
-      	if(actor === recipient)
-		return setstr(obj,actor.name + " " + act + " " + actor.myself);
-
-	else if (act.indexOf(" ") != -1) // dont add the 'ed' if its not a verb
-      		return setstr(obj,actor.name + " " + act + " " + recipient.name);
+      	if (actor === recipient)
+		return setstr(obj,actor.name + " had " + act.past + " " + actor.myself);
+		
+	else 
+      		return setstr(obj,actor.name + " had " + act.past + " " + recipient.name);
 	
-	else
-      		return setstr(obj,actor.name + " " + act + "ed " + recipient.name);
 }
 
 // SECONDARY: includes motiv (motiv has 2 uses)
