@@ -23,11 +23,14 @@ expectation_realized(wooed,eliza,al,3)
 expectation_realized(lost_friend,parry,parry,5)
 expectation_realized(lost_friend,parry,eliza,5)
 expectation_realized(depressed,al,al,1)
+expectation_realized(depressed,al,al,0)
+expectation_realized(depressed,eliza,eliza,3)
 expectation_realized(manipulated,al,parry,5)
 expectation_realized(manipulated,eliza,parry,5)
 expectation_realized(rejoiced,eliza,parry,6)
 expectation_realized(masochism,al,parry,5)
 expectation_realized(masochism,al,parry,4)
+expectation_realized(masochism,eliza,parry,5)
 harm_nullified(lost_friend,parry,eliza,5)
 harm_nullified(manipulated,al,parry,5)
 harm_nullified(manipulated,parry,al,5)
@@ -54,9 +57,12 @@ presentation(svo(eliza,mtrans(motiv(lost_friend,parry,eliza)),parry),3)
 presentation(svo(parry,ptrans(flowers),eliza),7)
 presentation(svo(eliza,ptrans(apple),al),2)
 presentation(motiv(rejoiced,eliza,parry),6)
+presentation(motiv(depressed,al,al),0)
 presentation(motiv(depressed,al,al),1)
+presentation(motiv(depressed,eliza,eliza),3)
 presentation(motiv(masochism,al,parry),4)
 presentation(motiv(masochism,al,parry),5)
+presentation(motiv(masochism,eliza,parry),5)
 
 SATISFIABLE
 
@@ -81,7 +87,7 @@ Time
 
 
 :
-1.630
+1.640
 
 
 Prepare
@@ -95,7 +101,7 @@ Prepro.
 
 
 :
-0.520
+0.530
 
 
 Solving

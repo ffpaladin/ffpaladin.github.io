@@ -53,6 +53,13 @@ attribute(alive).
 attribute(restrained).
 attribute(unhappy).
 attribute(inactive).
+attribute(happy).
+attribute(inlove).
+attribute(crazy).
+
+
+att_type(feeling).
+att_is(unhappy;happy;inlove;crazy,feeling).
 
 desires(love).
 desires(selfish).
@@ -205,8 +212,8 @@ t(0..t_max).
 
 { has_trait(Tr,P) } :- trait(Tr).
 
-% dont abduce motivations
-%{ initially(attrib(P,wants(M))) }.
+% feelings!!!!
+{ initially(attrib(P,A)) } :- att_is(A,feeling).
 
 %{ sentiment(S,V,O,T,Fe):feeling(Fe) } 1 :- happens(S,V,O,T).
 %{ context(S,V,O,T,D) } :- contextualizes(D,V), happens(S,V,O,T).

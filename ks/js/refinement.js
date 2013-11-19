@@ -23,8 +23,12 @@ var eliza = {
 	};
 
 var manipulated = {
-	present: "maipulate",
-	past: "manipulated"};
+	present: "manipulate",
+	past: "had manipulated"};
+
+var depressed = {
+	present: "is deeply depressed about",
+	past: "had become depressed about"};
 
 var couple = "fell in love and became a couple";
 var acquaintance = "became acquaintances";
@@ -32,7 +36,11 @@ var apple = "apples";
 
 var wooed = {
 	present: "won the affections of",
-	past: "won the affections of"};
+	past: "had won the affections of"};
+
+var rejoiced = {
+	present: "is glad about what happened to",
+	past: "was glad about what happened to"};
 
 var unhappy = "unhappy";
 
@@ -45,6 +53,9 @@ var lost_friend = {
 	present: "cause this great loss for",
 	};
 
+var mourned = {
+	present: "grieve the loss of",
+	past: "grieved the loss of"};
 
 var murdered = {
 	present: "murder",
@@ -57,7 +68,16 @@ var assaulted = {
 	present: "pick a fight with",
 	past: "picked a fight with"};
 
+var regretted = {
+	present: "show great remorse for what happened to",
+	past: "showed great remorse for what happened to"};
+
+var masochism = {
+	present: "feels deserving of the treatment from",
+	past: "felt deserving of the treatment from"};
+
 var sword = "sword";
+var knife = "knife";
 
 var captions = new Array();
 
@@ -194,10 +214,10 @@ function motiv(act, actor, recipient){
 			type: "motiv"};
 
       	if (actor === recipient)
-		return setstr(obj,actor.name + " had " + act.past + " " + actor.myself);
+		return setstr(obj,actor.name + " " + act.past + " " + actor.myself);
 		
 	else 
-      		return setstr(obj,actor.name + " had " + act.past + " " + recipient.name);
+      		return setstr(obj,actor.name + " " + act.past + " " + recipient.name);
 	
 }
 

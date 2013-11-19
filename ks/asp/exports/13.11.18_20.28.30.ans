@@ -11,7 +11,7 @@ happens(svo(al,ptrans(cash1),parry),4)
 happens(svo(eliza,mtrans(motiv(lost_friend,parry,eliza)),parry),3)
 happens(svo(parry,ptrans(sword),eliza),3)
 happens(svo(eliza,ptrans(apple),al),2)
-happens(svo(al,mtrans(motiv(murdered,eliza,parry)),eliza),2)
+happens(svo(al,mtrans(motiv(lost_friend,parry,eliza)),eliza),2)
 happens(svo(parry,idle,parry),1)
 happens(svo(al,mtrans(motiv(murdered,parry,al)),parry),1)
 happens(svo(parry,idle,parry),0)
@@ -22,16 +22,15 @@ expectation_realized(wooed,parry,eliza,8)
 expectation_realized(wooed,eliza,al,3)
 expectation_realized(lost_friend,parry,parry,5)
 expectation_realized(lost_friend,parry,eliza,5)
-expectation_realized(depressed,al,al,1)
 expectation_realized(manipulated,al,parry,5)
 expectation_realized(manipulated,eliza,parry,5)
 expectation_realized(rejoiced,eliza,parry,6)
-expectation_realized(masochism,al,parry,5)
-expectation_realized(masochism,al,parry,4)
+expectation_realized(indifferent_tragedy,eliza,parry,5)
 harm_nullified(lost_friend,parry,eliza,5)
 harm_nullified(manipulated,al,parry,5)
 harm_nullified(manipulated,parry,al,5)
 harm_nullified(murdered,parry,al,5)
+expectation_realized(depressed,parry,parry,3)
 harm_nullified(lost_friend,parry,parry,5)
 role_satisfied(victim,parry)
 role_satisfied(victim,al)
@@ -54,9 +53,7 @@ presentation(svo(eliza,mtrans(motiv(lost_friend,parry,eliza)),parry),3)
 presentation(svo(parry,ptrans(flowers),eliza),7)
 presentation(svo(eliza,ptrans(apple),al),2)
 presentation(motiv(rejoiced,eliza,parry),6)
-presentation(motiv(depressed,al,al),1)
-presentation(motiv(masochism,al,parry),4)
-presentation(motiv(masochism,al,parry),5)
+presentation(attrib(eliza,wants(motiv(lost_friend,parry,eliza))),5)
 
 SATISFIABLE
 
@@ -81,25 +78,25 @@ Time
 
 
 :
-1.630
+1.500
 
 
 Prepare
 
 
 :
-1.080
+1.000
 
 
 Prepro.
 
 
 :
-0.520
+0.480
 
 
 Solving
 
 
 :
-0.030
+0.020

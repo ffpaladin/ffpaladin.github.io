@@ -11,6 +11,17 @@ has_role(R,P) :-
 %:- required_role(R,P), not has_role(R,P).
 %:- forbidden_role(R,P), has_role(R,P).
 
+
+% present everything that reinforces a role
+
+present(motiv(X,S,P),T) :- harms(X),
+		expectation_realized(X,S,P,T),
+		role_satisfied(victim,P).
+present(motiv(X,S,P),T) :- harms(X),
+		expectation_realized(X,S,P,T),
+		role_satisfied(aggressor,S).
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %% ROLE: victim (gets harmed)
@@ -39,7 +50,10 @@ harm_nullified(X,S,P,T) :-
 
 % if you wanted it to happen
 
-harm_nullified(X,S,P,T) :- expectation_realized(indifferent_tragedy,P,S,T),
+harm_nullified(X,S,P,T) :-
+			expectation_realized(depressed,S,S,T1),
+			T1 < T,
+			expectation_realized(indifferent_tragedy,P,S,T),
 			expectation_realized(X,S,P,T).
 
 
@@ -77,6 +91,8 @@ harm_nullified(lost_friend,S1,S2,T) :-
 
 
 
+
+
 %        context(S,V,O,T,D),
 %		%not motivation(S,V,O,T,hate),
 %        unharms(D,V).
@@ -95,31 +111,38 @@ role(aggressor).
 role_satisfied(aggressor,S) :-
         harms(X),
         expectation_realized(X,S,P,T),
+	expectation_realized(rejoiced,S,P,T+1),
         not aggression_nullified(X,S,P,T).
 
-presentation(motiv(X,S,P),T) :- role_satisfied(aggressor,S),
-	harms(X),
-	expectation_realized(X,S,P,T).
 
-% S regrests what they did to P
+% S regrets what they did to P
 aggression_nullified(X,S,P,T) :- expectation_realized(X,S,P,T),
 	expectation_realized(regretted,S,P,T1),
 	T1>T,
 	harms(X).
-
-required_expectation(regretted,parry,al,6).
 
 % manipulated
 aggression_nullified(X,S,P,T) :- expectation_realized(X,S,P,T),
 	expectation_realized(manipulated,S1,S,T),
 	harms(X),
 	happens(svo(S1,mtrans(X,S,P),S),T1),
+	T1<T,
+	expectation_realized(mourned,S,P,T+1).
+
+% victim didn't care
+aggression_nullified(X,S,P,T) :- expectation_realized(X,S,P,T),
+	expectation_realized(indifferent_tragedy,P,S,T),
+	harms(X),
+	expectation_realized(masochism,P,P,T),
+	expectation_realized(mourned,S,P,T+1),
 	T1<T.
 
-% person didn't care
+
+% aggressor acted out of past hurt
 aggression_nullified(X,S,P,T) :- expectation_realized(X,S,P,T),
-	expectation_realized(indifferent_tragedy,S2,S1,T),
-	harms(X).
+	harms(X),
+	expectation_realized(avengence,S,P,T).
+
 %aggression_nullified(S,V,O,T) :-
 %        sentiment(S,V,O,T,regret).
 
