@@ -37,6 +37,18 @@ h1{
 .code{
     font-family: monospace;
     font-size: 12px;
+    cursor: pointer;
+    padding: 0px 15px 0px 15px;
+}
+
+.code-hidden{
+    height: 15px;
+    cursor: pointer;
+    padding: 0px 15px 0px 15px;
+}
+
+.caption{
+    padding: 0px 15px 0px 15px;
 }
 
 .frame{
@@ -45,7 +57,7 @@ h1{
 }
 .frame-content{
     width:600px;
-    padding: 15px;
+    padding: 15px 15px 15px 15px;
     border-radius: 15px;
     background-color: #ceff96;
     color: #0d1615;
@@ -54,22 +66,27 @@ h1{
 }
 
 .frame-image{
-	display: block;
-	margin-left:auto;
-	margin-right:auto;
+    display: block;
+    margin-left:auto;
+    margin-right:auto;
     width: 95%;
     height: auto;
+    cursor: pointer;
 }
 #left{
-	position: fixed; left:0px; top:50%;
-	background-image:url('../images/misc/arrow.png');
-	width:49px; height:99px;
+    position: fixed; left:0px; top:50%;
+    background-image:url('../images/misc/arrow.png');
+    width:49px; height:99px;
     cursor: pointer;
 }
 #right{
-	position: fixed; right:0px; top:50%;
-	background-image:url('../images/misc/arrow-flipped.png') ;
-	width:49px; height:99px;
+    position: fixed; right:0px; top:50%;
+    background-image:url('../images/misc/arrow-flipped.png') ;
+    width:49px; height:99px;
+    cursor: pointer;
+}
+
+.fake-link{
     cursor: pointer;
 }
 

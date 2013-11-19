@@ -1,13 +1,15 @@
 <html>
     <link rel="stylesheet" type="text/css" href="css/main.css">
-	 <head>
+     <head>
             <title>Tell Me A Story.</title>
             <meta http-equiv="Content-Type" content = "text/html; charset=UTF-8">
             <meta name="viewport" content="width=1024" />
     </head>
     <body>
         <title>Tell Me A Story.</title>
-        <div id="logo"><img src="images/logo.png"/></div>
+        <div id="logo"><img id="logo-image" src="images/logo.png"/></div>
+        <div id="content">
+        </div>
         <div id="impress">
         </div>
         <div id="left" onclick="impress().prev()"></div>
@@ -21,37 +23,17 @@
 <script src="js/conjugator.js"></script>
 <script src="js/refinement.js"></script>
 <script src="js/kaleidoscope-vis.js"></script>
-	<script>
-       // alert(conjugate("fight", "present", 3, false));
-        
+    <script>      
         var pathname = window.location.href;
         var param = pathname.split(/[?#]/);
 
         console.log(param);
 
-        if (param.length > 1)
+        if (param.length > 2)
         {
             console.log("loading story id #" + param[1]);
             ksVis.loadStory(Math.floor(param[1]));
         }
         else
             ksVis.loadStory(Math.floor(Math.random()*32767));
-        //var url = "data/story01.json";
-        // var story;
-        //console.log("here");
-       /* $(document).ready(function(){
-            $.getJSON(url, function(data){
-            //alert("done");
-          //  console.log("here3"); 
-            printStoryImpress(data.stories, "#impress");
-            impress().init();
-            }).fail(function(data){
-               // console.log(error.responseText);
-                //alert("fail");
-            }).always(function(data){
-            //    console.log(data);
-                story = data.responseText;
-            });
-        });*/
-        //console.log("here2");
-	</script>  
+    </script>  
