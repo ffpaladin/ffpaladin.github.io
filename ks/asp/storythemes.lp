@@ -89,6 +89,7 @@ presentation(svo(S1,ptrans(O),S2),T-1) :-
 % lost friend - S1 murders S3. S2 is the victim of loss
 
 expectation_realized(lost_friend,S1,S2,T) :-
+			expectation_realized(mourned,S2,S3,T+1),
 			happens(svo(S1,kills,S3),T),
 			not holds(attrib(S2,rel(stranger,S3)),T),
 			S2 != S3.
@@ -118,9 +119,14 @@ expectation_realized(rejoiced,S1,S2,T) :-
 
 presentation(motiv(rejoiced,S1,S2),T) :- expectation_realized(rejoiced,S1,S2,T).
 
+% accident
+
 expectation_realized(accidental_tragedy,S1,S2,T) :-
 			expectation_realized(mourned,S1,S2,T),
+			expectation_realized(regretted,S1,S2,T),
 			happens(svo(S1,mtrans(motiv(accidental_tragedy,S1,S2)),S1),T).
+
+presentation(motiv(accidental_tragedy,S1,S2),T) :- expectation_realized(accidental_tragedy,S1,S2,T).
 
 % indifferent if S1 wanted harm to happen to himself
 
@@ -160,6 +166,18 @@ expectation_realized(masochism,S1,S2,T) :-
 
 presentation(motiv(masochism,S1,S2),T) :- expectation_realized(masochism,S1,S2,T).
 
+
+% self defended murder
+
+expectation_realized(self_defended_murder,S,P,T) :- expectation_realized(murdered,S,P,T),
+			expectation_realized(assaulted,P,S,T).
+
+presentation(svo(S,attacks(O),P),T) :- happens(svo(S,attacks(O),P),T),
+			expectation_realized(self_defended_murder,P,S,T).
+
+presentation(motiv(self_defended_murder,S,P,T),T) :- expectation_realized(self_defended_murder,S,P,T).
+
+			
 
 % MOTIVATION
 

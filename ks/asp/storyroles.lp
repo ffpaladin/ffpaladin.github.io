@@ -115,11 +115,11 @@ role_satisfied(aggressor,S) :-
         not aggression_nullified(X,S,P,T).
 
 
-% S regrets what they did to P
-aggression_nullified(X,S,P,T) :- expectation_realized(X,S,P,T),
-	expectation_realized(regretted,S,P,T1),
-	T1>T,
-	harms(X).
+% S regrets what they did to P - This one is a bit weak
+%aggression_nullified(X,S,P,T) :- expectation_realized(X,S,P,T),
+%	expectation_realized(regretted,S,P,T1),
+%	T1>T,
+%	harms(X).
 
 % manipulated
 aggression_nullified(X,S,P,T) :- expectation_realized(X,S,P,T),
@@ -142,6 +142,17 @@ aggression_nullified(X,S,P,T) :- expectation_realized(X,S,P,T),
 aggression_nullified(X,S,P,T) :- expectation_realized(X,S,P,T),
 	harms(X),
 	expectation_realized(avengence,S,P,T).
+
+% aggressor accident
+aggression_nullified(X,S,P,T) :- expectation_realized(accidental_tragedy,S,P,T),
+			harms(X),
+			expectation_realized(X,S,P,T). 
+
+
+% self-defence
+aggression_nullified(X,S,P,T) :- expectation_realized(self_defended_murder,S,P,T),
+			harms(X),
+			expectation_realized(X,S,P,T).
 
 %aggression_nullified(S,V,O,T) :-
 %        sentiment(S,V,O,T,regret).

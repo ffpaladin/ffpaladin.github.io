@@ -73,8 +73,12 @@ var regretted = {
 	past: "showed great remorse for what happened to"};
 
 var masochism = {
-	present: "feels deserving of the treatment from",
+	present: "feel deserving of the treatment from",
 	past: "felt deserving of the treatment from"};
+
+var self_defended_murder = {
+	present: "kill in self defense against",
+	past: "killed in self defense against"};
 
 var sword = "sword";
 var knife = "knife";
