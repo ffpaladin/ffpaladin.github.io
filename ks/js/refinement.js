@@ -29,12 +29,16 @@ var manipulated = {
 var couple = "fell in love and became a couple";
 var acquaintance = "became acquaintances";
 var apple = "apples";
-var wooed = "wooed";
+
+var wooed = {
+	present: "won the affections of",
+	past: "won the affections of"};
+
 var unhappy = "unhappy";
 
 var indifferent_tragedy = {
 	present: "not care what happened to",
-	past: "did not care what happened to"};
+	past: "not cared what happened to"};
 
 var lost_friend = {
 	past: "caused this great loss for",
@@ -157,7 +161,7 @@ function attrib(subject, attribute){
 
 		// else it is a want
 		else if (attribute.type === "wants") {
-			sent = subject.name + " " + attribute;
+			sent = subject.name + " " + attribute.motive.a.present + attribute.motive.r.name;
 			
 			if (attribute.motive.r === subject) // someone wants something on themself
 				 sent = subject.name + " wanted " + attribute.motive.p.name + " to " +
