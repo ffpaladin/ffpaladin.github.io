@@ -63,7 +63,7 @@ function printCaptionsImpress (captions, domElement){
 			if(i<=5)
 				htmlToAppend += "images/comics/storyasset0" + i + ".jpg";
 			else
-				htmlToAppend += 'images/comics/filler.png'
+				htmlToAppend += 'images/comics/filler.jpg'
 			htmlToAppend += '"/></br/>'
 			//caption
 			htmlToAppend += '<div class="caption">' + caption.text + "</div></div></div>;"
