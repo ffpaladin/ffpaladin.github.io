@@ -1,7 +1,7 @@
 var al = {
 	name: "Al",
 	myself: "himself",
-	pronoun: "he",
+	pronoun: "He",
 	posessive: "his",
 	object: "him"
 	};
