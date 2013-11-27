@@ -184,6 +184,11 @@
     if (!impressSupported) {
         // we can't be sure that `classList` is supported
         body.className += " impress-not-supported ";
+
+        //streamline visuals for mobile
+        jQuery("#left").css("display", "none");
+        jQuery("#right").css("display", "none");
+        jQuery("#holder").css("overflow-y", "scroll");
     } else {
         body.classList.remove("impress-not-supported");
         body.classList.add("impress-supported");
@@ -337,6 +342,7 @@
             var meta = $("meta[name='viewport']") || document.createElement("meta");
             meta.content = "width=device-width, minimum-scale=1, maximum-scale=1, user-scalable=no";
             if (meta.parentNode !== document.head) {
+                
                 meta.name = 'viewport';
                 document.head.appendChild(meta);
             }
