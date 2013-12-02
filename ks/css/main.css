@@ -79,14 +79,38 @@ h1{
     background-image:url('../images/misc/arrow.png');
     width:49px; height:99px;
     cursor: pointer;
+
+    opacity: 0;
+
+    -webkit-transition: opacity .5s;
+    -moz-transition:    opacity .5s;
+    -ms-transition:     opacity .5s;
+    -o-transition:      opacity .5s;
+    transition:         opacity .5s;
 }
+
+#left:hover{
+    opacity: 1;
+}
+
 #right{
     position: fixed; right:0px; top:50%;
     background-image:url('../images/misc/arrow-flipped.png') ;
     width:49px; height:99px;
     cursor: pointer;
+
+    opacity: 0;
+
+    -webkit-transition: opacity .5s;
+    -moz-transition:    opacity .5s;
+    -ms-transition:     opacity .5s;
+    -o-transition:      opacity .5s;
+    transition:         opacity .5s;
 }
 
+#right:hover{
+    opacity: 1;
+}
 .fake-link{
     cursor: pointer;
 }
